@@ -9,7 +9,8 @@
     "start": "npm run build && node dist/index.js",
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.js"
+    "lint": "eslint . --ext .ts,.js",
+    "generate": "graphql-codegen"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,9 @@
     "graphql": "^16.9.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/typescript": "^4.1.2",
+    "@graphql-codegen/typescript-resolvers": "^4.4.1",
     "@types/node": "^22.9.3",
     "eslint": "^9.15.0",
     "tsx": "^4.19.2",

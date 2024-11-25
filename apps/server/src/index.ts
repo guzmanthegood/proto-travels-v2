@@ -1,8 +1,8 @@
 // src/index.ts
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import schema from "./schema";
-import { resolvers } from "./resolvers";
+import schema from "./schema/loadSchema";
+import { resolvers } from "./resolvers/resolvers";
 
 const server = new ApolloServer({
   typeDefs: schema,
