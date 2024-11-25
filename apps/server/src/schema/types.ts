@@ -76,12 +76,16 @@ export type AvailabilityParams = {
 
 /** Input type for availability search parameters. */
 export type AvailabilityParamsInput = {
+  /** Cursor pointing to the last item of the previous page. Used for fetching the next set of results. */
+  after?: InputMaybe<Scalars['String']['input']>;
   /** The check-in date for the search. */
   checkIn: Scalars['String']['input'];
   /** The check-out date for the search. */
   checkOut: Scalars['String']['input'];
   /** Filters applied to the search. */
   filters?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Number of results to return from the start. */
+  first?: InputMaybe<Scalars['Int']['input']>;
   /** Search information for the search, such as city or coordinates. */
   search: SearchInput;
   /** Sorting options for the results. Defaults to price ascending. */

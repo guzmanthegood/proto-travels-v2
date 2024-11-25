@@ -24,6 +24,14 @@ input AvailabilityParamsInput {
   Sorting options for the results. Defaults to price ascending.
   """
   sort: SortInput = { field: PRICE, order: ASC }
+  """
+  Number of results to return from the start.
+  """
+  first: Int = 10
+  """
+  Cursor pointing to the last item of the previous page. Used for fetching the next set of results.
+  """
+  after: String
 }
 
 """
