@@ -1,5 +1,7 @@
 import { QueryResolvers, SortField, SortOrder } from "../../../schema/types";
 import { createHotelConnection } from "./createHotelConnection";
+import { parseAvailabilityParams } from "./parseAvailabilityParams";
+
 import hotels from "./hotels";
 
 export const availability: QueryResolvers["availability"] = async (
@@ -7,6 +9,7 @@ export const availability: QueryResolvers["availability"] = async (
   { params }
 ) => {
   const first: number = params?.first ?? 10;
+  const parsedParams = parseAvailabilityParams(params);
 
   const hotelsConnection = createHotelConnection(hotels, {
     first,
@@ -15,13 +18,7 @@ export const availability: QueryResolvers["availability"] = async (
 
   return {
     id: "search-123",
-    params: {
-      checkIn: params?.checkIn || "2024-01-01",
-      checkOut: params?.checkOut || "2024-01-07",
-      search: params?.search || null,
-      filters: params?.filters || [],
-      sort: params?.sort || { field: SortField.Price, order: SortOrder.Asc },
-    },
+    params: parsedParams,
     responseTime: {
       total: 500,
       provider: 300,
