@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { parseStringPromise } from "xml2js";
 
 // Configuración de logging según las variables de entorno
 const LOG_REQUESTS = process.env.NETSTORMING_LOG_REQUESTS === "true"; // Log requests
@@ -39,7 +40,8 @@ netstormingClient.interceptors.request.use(
 );
 
 /**
- * Interceptor for responses to optionally log response details.
+ * Interceptor for responses to optionally log response details
+ * and handle controlled Netstorming errors centrally.
  */
 netstormingClient.interceptors.response.use(
   async (response) => {
@@ -49,7 +51,23 @@ netstormingClient.interceptors.response.use(
         data: response.data,
       });
     }
-    return response;
+
+    // Parse the XML response
+    const parsed = await parseStringPromise(response.data, {
+      explicitArray: false,
+    });
+
+    // Handle controlled errors
+    const responseType = parsed?.envelope?.response?.$?.type || null;
+    const errorMessage = parsed?.envelope?.response?._ || null;
+
+    if (responseType === "error") {
+      console.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+
+    // Return the parsed response if no errors
+    return parsed;
   },
   (error) => {
     const errorMessage = `Failed to fetch response: ${error.message}`;
