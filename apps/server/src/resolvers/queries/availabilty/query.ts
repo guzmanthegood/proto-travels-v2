@@ -8,6 +8,8 @@ export const availability: QueryResolvers["availability"] = async (
   _,
   { params }
 ) => {
+  const startTime = Date.now(); // Inicio del cálculo del tiempo
+
   const first: number = params?.first ?? 10;
   const parsedParams = parseAvailabilityParams(params);
 
@@ -16,12 +18,15 @@ export const availability: QueryResolvers["availability"] = async (
     after: params?.after,
   });
 
+  const endTime = Date.now();
+  const totalResponseTime = endTime - startTime;
+
   return {
     id: "search-123",
     params: parsedParams,
     responseTime: {
-      total: 500,
-      provider: 300,
+      total: totalResponseTime,
+      provider: 0,
     },
     hotelsConnection,
   };
