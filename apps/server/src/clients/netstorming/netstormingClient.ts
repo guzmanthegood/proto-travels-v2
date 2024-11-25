@@ -7,7 +7,7 @@ const LOG_RESPONSES = process.env.NETSTORMING_LOG_RESPONSES === "true"; // Log r
 const NETSTORMING_TIMEOUT = parseInt(
   process.env.NETSTORMING_TIMEOUT || "10000",
   10
-); // Timeout en ms
+);
 
 const netstormingClient: AxiosInstance = axios.create({
   baseURL: process.env.NETSTORMING_URL,

@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,6 +14,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** Custom scalar for representing dates in YYYY-MM-DD format. */
+  Date: { input: any; output: any; }
 };
 
 /** Represents an agreement related to a hotel, including pricing and availability details. */
@@ -78,10 +80,10 @@ export type AvailabilityParams = {
 export type AvailabilityParamsInput = {
   /** Cursor pointing to the last item of the previous page. Used for fetching the next set of results. */
   after?: InputMaybe<Scalars['String']['input']>;
-  /** The check-in date for the search. */
-  checkIn: Scalars['String']['input'];
-  /** The check-out date for the search. */
-  checkOut: Scalars['String']['input'];
+  /** The check-in date for the search. Must follow the format YYYY-MM-DD. */
+  checkIn: Scalars['Date']['input'];
+  /** The check-out date for the search. Must follow the format YYYY-MM-DD. */
+  checkOut: Scalars['Date']['input'];
   /** Filters applied to the search. */
   filters?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Number of results to return from the start. */
@@ -384,6 +386,7 @@ export type ResolversTypes = {
   Coordinates: ResolverTypeWrapper<Coordinates>;
   CoordinatesInput: CoordinatesInput;
   Currency: ResolverTypeWrapper<Currency>;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Hotel: ResolverTypeWrapper<Hotel>;
   HotelAdditionalData: ResolverTypeWrapper<HotelAdditionalData>;
@@ -417,6 +420,7 @@ export type ResolversParentTypes = {
   Coordinates: Coordinates;
   CoordinatesInput: CoordinatesInput;
   Currency: Currency;
+  Date: Scalars['Date']['output'];
   Float: Scalars['Float']['output'];
   Hotel: Hotel;
   HotelAdditionalData: HotelAdditionalData;
@@ -491,6 +495,10 @@ export type CurrencyResolvers<ContextType = any, ParentType extends ResolversPar
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
 
 export type HotelResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hotel'] = ResolversParentTypes['Hotel']> = {
   additionalData?: Resolver<Maybe<ResolversTypes['HotelAdditionalData']>, ParentType, ContextType>;
@@ -572,6 +580,7 @@ export type Resolvers<ContextType = any> = {
   AvailabilityResponse?: AvailabilityResponseResolvers<ContextType>;
   Coordinates?: CoordinatesResolvers<ContextType>;
   Currency?: CurrencyResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   Hotel?: HotelResolvers<ContextType>;
   HotelAdditionalData?: HotelAdditionalDataResolvers<ContextType>;
   HotelConnection?: HotelConnectionResolvers<ContextType>;

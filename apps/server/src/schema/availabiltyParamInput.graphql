@@ -5,13 +5,13 @@ Input type for availability search parameters.
 """
 input AvailabilityParamsInput {
   """
-  The check-in date for the search.
+  The check-in date for the search. Must follow the format YYYY-MM-DD.
   """
-  checkIn: String!
+  checkIn: Date!
   """
-  The check-out date for the search.
+  The check-out date for the search. Must follow the format YYYY-MM-DD.
   """
-  checkOut: String!
+  checkOut: Date!
   """
   Search information for the search, such as city or coordinates.
   """
