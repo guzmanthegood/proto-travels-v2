@@ -1,4 +1,5 @@
 // src/index.ts
+import "dotenv/config";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import schema from "./schema/loadSchema";

@@ -1,25 +1,44 @@
+import { getHeader } from "../../getHeader";
+import { AvailabilityParamsInput } from "../../../../schema/types"; // Import types from GraphQL schema
+
 /**
  * Generates the XML request for the Netstorming availability query.
- * @param params - Parameters required for the query.
+ * @param params - Parameters for the query, typed as AvailabilityParamsInput.
  * @returns A string containing the XML for the availability request.
  */
-export const generateAvailabilityRequest = (params: any): string => {
+export const generateAvailabilityRequest = (
+  params: AvailabilityParamsInput
+): string => {
   return `
     <?xml version="1.0" encoding="UTF-8"?>
     <envelope>
-      <header>
-        <actor>${process.env.NETSTORMING_ACTOR || "defaultActor"}</actor>
-        <user>${process.env.NETSTORMING_USER || "defaultUser"}</user>
-        <password>${process.env.NETSTORMING_PASSWORD || "defaultPassword"}</password>
-        <timestamp>${new Date().toISOString().replace(/[-:.]/g, "").slice(0, 14)}</timestamp>
-      </header>
+      ${getHeader()}
+
       <query type="availability" product="hotel">
-        <params>
-          <checkin>${params.checkIn}</checkin>
-          <checkout>${params.checkOut}</checkout>
-          <destination>${params.destination}</destination>
-          <rooms>${params.rooms}</rooms>
-        </params>
+
+        <!-- Location (longitude, latitude, distance) -->
+        ${
+          params.search?.coordinates
+            ? `
+          <longitude value="${params.search.coordinates.longitude}" />
+          <latitude value="${params.search.coordinates.latitude}" />
+          <distance value="2500" />
+        `
+            : ""
+        }
+
+        <!-- Fixed filters -->
+        <filters>
+          <filter>BESTARRANGMENT</filter>
+        </filters>
+
+        <!-- Dynamic check-in and check-out dates -->
+        <checkin date="${params.checkIn}" />
+        <checkout date="${params.checkOut}" />
+
+        <details>
+            <room  required="1" cot="false" occupancy="2"/>
+        </details>
       </query>
     </envelope>
   `;

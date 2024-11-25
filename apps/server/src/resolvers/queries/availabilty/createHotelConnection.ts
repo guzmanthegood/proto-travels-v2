@@ -10,11 +10,31 @@ type ConnectionParams = {
   after?: string | null;
 };
 
-// Create new hotel connection
+/**
+ * Create a new hotel connection.
+ * Handles pagination and ensures a valid connection even with an empty hotel list.
+ * @param hotels - List of hotels to paginate.
+ * @param params - Pagination parameters (first, after).
+ * @returns A valid HotelConnection object.
+ */
 export function createHotelConnection(
   hotels: Hotel[],
   { first = 10, after }: ConnectionParams
 ): HotelConnection {
+  if (!hotels || hotels.length === 0) {
+    // Return an empty connection if the hotel list is empty
+    return {
+      totalCount: 0,
+      edges: [],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: null,
+        endCursor: null,
+      },
+    };
+  }
+
   // Find the index of the hotel matching the cursor "after"
   const offset = after
     ? hotels.findIndex((hotel) => hotel.code === after) + 1

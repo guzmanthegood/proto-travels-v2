@@ -1,8 +1,11 @@
-// src/clients/netstorming/netstormingClient.ts
 import axios, { AxiosInstance } from "axios";
 
+// Configuración de logging según las variables de entorno
+const LOG_REQUESTS = process.env.LOG_NETSTORMING_REQUESTS === "true"; // Log requests
+const LOG_RESPONSES = process.env.LOG_NETSTORMING_RESPONSES === "true"; // Log responses
+
 const netstormingClient: AxiosInstance = axios.create({
-  baseURL: "https://netstorming.api/endpoint",
+  baseURL: process.env.NETSTORMING_URL,
   headers: {
     "Content-Type": "application/xml",
   },
@@ -10,20 +13,44 @@ const netstormingClient: AxiosInstance = axios.create({
 });
 
 /**
- * Interceptor for responses to handle errors globally.
- * Logs errors and rethrows them for specific handling in the calling function.
+ * Interceptor for requests to optionally log request details.
+ */
+netstormingClient.interceptors.request.use(
+  (config) => {
+    if (LOG_REQUESTS) {
+      console.log("Netstorming Request:", {
+        url: config.url,
+        method: config.method,
+        headers: config.headers,
+        data: config.data,
+      });
+    }
+    return config;
+  },
+  (error) => {
+    const errorMessage = `Failed to send request: ${error.message}`;
+    console.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  }
+);
+
+/**
+ * Interceptor for responses to optionally log response details.
  */
 netstormingClient.interceptors.response.use(
-  (response) => {
-    // Successful response, simply return it
+  async (response) => {
+    if (LOG_RESPONSES) {
+      console.log("Netstorming Response:", {
+        status: response.status,
+        data: response.data,
+      });
+    }
     return response;
   },
   (error) => {
-    // Log the error for debugging purposes
-    console.error("Netstorming API error:", error.message);
-
-    // Customize the error message for easier debugging
-    throw new Error(`Netstorming API request failed: ${error.message}`);
+    const errorMessage = `Failed to fetch response: ${error.message}`;
+    console.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
   }
 );
 
