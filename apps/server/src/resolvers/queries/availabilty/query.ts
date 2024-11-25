@@ -10,6 +10,14 @@ export const availability: QueryResolvers["availability"] = async (
 ) => {
   const startTime = Date.now();
 
+  // Validate `SearchInput` contains at least one required field
+  const { hotelCode, cityCode, coordinates } = params.search;
+  if (!hotelCode && !cityCode && !coordinates) {
+    throw new Error(
+      "The `search` field must contain at least one of the following: `hotelCode`, `cityCode`, or `coordinates`."
+    );
+  }
+
   const first: number = params?.first ?? 10;
   const parsedParams = parseAvailabilityParams(params);
 
