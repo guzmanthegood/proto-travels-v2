@@ -1,4 +1,4 @@
-import { QueryResolvers, SortField, SortOrder } from "../types";
+import { QueryResolvers, SortField, SortOrder } from "../../schema/types";
 
 export const queryResolver: QueryResolvers = {
   availability: async (_, { params }) => {

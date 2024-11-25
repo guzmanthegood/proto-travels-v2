@@ -1,7 +1,7 @@
 schema:
   - src/schema/**/*.graphql
 generates:
-  src/types.ts:
+  src/schema/types.ts: # Actualiza la ruta aquí
     plugins:
       - typescript
       - typescript-resolvers
