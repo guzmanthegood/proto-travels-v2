@@ -1,18 +1,20 @@
 import { QueryResolvers, SortField, SortOrder } from "../../../schema/types";
+import { availability as fetchNetstormingAvailability } from "../../../clients/netstorming/queries/availabilty/query";
 import { createHotelConnection } from "./createHotelConnection";
 import { parseAvailabilityParams } from "./parseAvailabilityParams";
 import { generateUniqueId } from "../../../utils/helpers";
-
-import hotels from "./hotels";
 
 export const availability: QueryResolvers["availability"] = async (
   _,
   { params }
 ) => {
-  const startTime = Date.now(); // Inicio del cálculo del tiempo
+  const startTime = Date.now();
 
   const first: number = params?.first ?? 10;
   const parsedParams = parseAvailabilityParams(params);
+
+  // Fetch hotels from Netstorming
+  const hotels = await fetchNetstormingAvailability(parsedParams);
 
   const hotelsConnection = createHotelConnection(hotels, {
     first,
