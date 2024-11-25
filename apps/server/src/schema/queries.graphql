@@ -1,9 +1,4 @@
+# src/schema/queries.graphql
 type Query {
-  books: [Book]
-  availability(params: String): String!
-}
-
-type Book {
-  title: String
-  author: String
+  availability(params: AvailabilityParamsInput): AvailabilityResponse!
 }

@@ -1,0 +1,81 @@
+# src/schema/availabilityParamsInput.graphql
+
+"""
+Input type for availability search parameters.
+"""
+input AvailabilityParamsInput {
+  """
+  The check-in date for the search.
+  """
+  checkIn: String!
+  """
+  The check-out date for the search.
+  """
+  checkOut: String!
+  """
+  Search information for the search, such as city or coordinates.
+  """
+  search: SearchInput!
+  """
+  Filters applied to the search.
+  """
+  filters: [String!]
+  """
+  Sorting options for the results. Defaults to price ascending.
+  """
+  sort: SortInput = { field: PRICE, order: ASC }
+}
+
+"""
+Input type for specifying the target of the search.
+The search priority is as follows:
+1. If `hotelCode` is provided, only that specific hotel is returned, even if other fields are populated.
+2. If `cityCode` is provided, all hotels in that city are returned, even if `coordinates` are provided.
+3. If neither `hotelCode` nor `cityCode` are provided, `coordinates` with `radius` will be used to search for hotels.
+"""
+input SearchInput {
+  """
+  The code of a specific hotel to search for. Takes highest priority.
+  """
+  hotelCode: String
+  """
+  The code of a city to search in. Takes priority over `coordinates` if present.
+  """
+  cityCode: String
+  """
+  The geographical coordinates and radius to search around. Used if neither `hotelCode` nor `cityCode` are provided.
+  """
+  coordinates: CoordinatesInput
+}
+
+"""
+Input type for specifying geographical coordinates.
+"""
+input CoordinatesInput {
+  """
+  Latitude of the location.
+  """
+  latitude: Float!
+  """
+  Longitude of the location.
+  """
+  longitude: Float!
+  """
+  Radius of the search area in kilometers.
+  """
+  radius: Int!
+}
+
+"""
+Input type for sorting options.
+"""
+input SortInput {
+  """
+  The field to sort by (e.g., price, name).
+  """
+  field: SortField!
+  """
+  The order of sorting (e.g., ascending, descending).
+  """
+  order: SortOrder!
+}
