@@ -1,6 +1,7 @@
 import { QueryResolvers, SortField, SortOrder } from "../../../schema/types";
 import { createHotelConnection } from "./createHotelConnection";
 import { parseAvailabilityParams } from "./parseAvailabilityParams";
+import { generateUniqueId } from "../../../utils/helpers";
 
 import hotels from "./hotels";
 
@@ -22,7 +23,7 @@ export const availability: QueryResolvers["availability"] = async (
   const totalResponseTime = endTime - startTime;
 
   return {
-    id: "search-123",
+    id: generateUniqueId(),
     params: parsedParams,
     responseTime: {
       total: totalResponseTime,
