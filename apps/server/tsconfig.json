@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2021", // Salida moderna de JavaScript
+    "module": "ESNext", // Usar módulos ES para compatibilidad con Apollo
+    "strict": true, // Activar comprobaciones estrictas
+    "esModuleInterop": true, // Interoperabilidad con módulos CommonJS
+    "skipLibCheck": true, // Ignorar tipado de node_modules
+    "forceConsistentCasingInFileNames": true, // Sensibilidad a mayúsculas/minúsculas
+    "rootDir": "./src", // Código fuente principal
+    "outDir": "./dist", // Directorio de salida
+    "moduleResolution": "node", // Resolución de módulos estilo Node.js
+    "resolveJsonModule": true, // Permitir importar archivos JSON
+    "allowSyntheticDefaultImports": true, // Permitir imports predeterminados
+    "lib": ["es2021"], // Bibliotecas disponibles
+    "types": ["node"] // Tipos de Node.js
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

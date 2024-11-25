@@ -1,73 +1,102 @@
-# Turborepo starter
+# Proto-Travels V2
 
-This is an official starter Turborepo.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
+This is the **Proto-Travels V2** monorepo, built using **Turborepo** for managing multiple applications and packages efficiently. It serves as the foundation for a modern booking platform.
 
 ## What's inside?
 
-This Turborepo includes the following packages/apps:
+This Turborepo includes the following apps and packages:
 
-### Apps and Packages
+### Apps
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- [`docs`](apps/docs/README.md): A [Next.js](https://nextjs.org/) app for documentation or static site.
+- [`web`](apps/web/README.md): A [Next.js](https://nextjs.org/) app for the main booking platform UI.
+- [`server`](apps/server/README.md): An **Apollo Server** providing the GraphQL API for the platform.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Packages
+
+- `@proto-travels/ui`: A stub React component library shared by the `web` and `docs` apps.
+- `@proto-travels/eslint-config`: Shared `eslint` configuration, including `eslint-config-next` and `eslint-config-prettier`.
+- `@proto-travels/typescript-config`: Shared `tsconfig.json` used across the monorepo.
+
+Each package and app is fully written in [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
 
-This Turborepo has some additional tools already setup for you:
+This Turborepo includes some additional tools:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- [TypeScript](https://www.typescriptlang.org/) for static type checking.
+- [ESLint](https://eslint.org/) for code linting.
+- [Prettier](https://prettier.io) for code formatting.
 
-### Build
+## Build
 
 To build all apps and packages, run the following command:
 
-```
-cd my-turborepo
+```sh
 pnpm build
 ```
 
-### Develop
+## Develop
 
 To develop all apps and packages, run the following command:
 
-```
-cd my-turborepo
+```sh
 pnpm dev
 ```
 
-### Remote Caching
+To develop a specific app, use the `--filter` flag:
+
+```sh
+pnpm --filter <app-name> dev
+```
+
+For example:
+
+```sh
+pnpm --filter server dev
+pnpm --filter web dev
+```
+
+## Remote Caching
 
 Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+By default, Turborepo will cache locally. To enable Remote Caching, you will need an account with Vercel. If you don't have an account, [create one](https://vercel.com/signup) and then run:
 
-```
-cd my-turborepo
+```sh
 npx turbo login
 ```
 
 This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Next, link your Turborepo to a remote cache by running:
 
-```
+```sh
 npx turbo link
 ```
+
+## Folder Structure
+
+Here is a high-level overview of the folder structure:
+
+```
+proto-travels/
+├── apps/
+│   ├── docs/      # Documentation app
+│   ├── web/       # Booking platform UI
+│   └── server/    # Apollo GraphQL server
+├── packages/
+│   ├── ui/        # Shared React components
+│   ├── eslint-config/ # Shared ESLint configuration
+│   └── typescript-config/ # Shared TypeScript configuration
+└── turbo.json     # Turborepo configuration
+```
+
+Each app has its own `README.md`:
+
+- [`docs README`](apps/docs/README.md)
+- [`web README`](apps/web/README.md)
+- [`server README`](apps/server/README.md)
 
 ## Useful Links
 

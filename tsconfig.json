@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2021", // Salida de JavaScript moderna
+    "module": "CommonJS", // Módulos compatibles con Node.js
+    "strict": true, // Activar comprobaciones estrictas
+    "esModuleInterop": true, // Interoperabilidad con CommonJS
+    "skipLibCheck": true, // Ignorar comprobaciones de tipado en node_modules
+    "forceConsistentCasingInFileNames": true, // Sensible a mayúsculas/minúsculas
+    "rootDir": "./", // Directorio raíz del proyecto
+    "outDir": "./dist", // Carpeta de salida para los archivos compilados
+    "moduleResolution": "node", // Resolución de módulos estilo Node.js
+    "resolveJsonModule": true, // Permitir importar archivos JSON
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["apps/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
