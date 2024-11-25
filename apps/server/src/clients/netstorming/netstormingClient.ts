@@ -67,7 +67,7 @@ netstormingClient.interceptors.response.use(
     }
 
     // Return the parsed response if no errors
-    return parsed;
+    return response;
   },
   (error) => {
     const errorMessage = `Failed to fetch response: ${error.message}`;
