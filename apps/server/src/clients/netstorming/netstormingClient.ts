@@ -1,15 +1,19 @@
 import axios, { AxiosInstance } from "axios";
 
 // Configuración de logging según las variables de entorno
-const LOG_REQUESTS = process.env.LOG_NETSTORMING_REQUESTS === "true"; // Log requests
-const LOG_RESPONSES = process.env.LOG_NETSTORMING_RESPONSES === "true"; // Log responses
+const LOG_REQUESTS = process.env.NETSTORMING_LOG_REQUESTS === "true"; // Log requests
+const LOG_RESPONSES = process.env.NETSTORMING_LOG_RESPONSES === "true"; // Log responses
+const NETSTORMING_TIMEOUT = parseInt(
+  process.env.NETSTORMING_TIMEOUT || "10000",
+  10
+); // Timeout en ms
 
 const netstormingClient: AxiosInstance = axios.create({
   baseURL: process.env.NETSTORMING_URL,
   headers: {
     "Content-Type": "application/xml",
   },
-  timeout: 10000, // 10 seconds timeout
+  timeout: NETSTORMING_TIMEOUT,
 });
 
 /**
