@@ -9,33 +9,35 @@ import { AvailabilityParamsInput } from "../../../../schema/types"; // Import ty
 export const generateAvailabilityRequest = (
   params: AvailabilityParamsInput
 ): string => {
+  // Generate search parameters based on priority: hotel > city > coordinates
+  const { hotelCode, cityCode, coordinates } = params.search;
+  const searchParams = `
+      ${
+        hotelCode
+          ? `<hotel id="${hotelCode}" />`
+          : cityCode
+            ? `<city code="${cityCode}" />`
+            : coordinates
+              ? `
+          ${coordinates.latitude ? `<latitude value="${coordinates.latitude}" />` : ""}
+          ${coordinates.longitude ? `<longitude value="${coordinates.longitude}" />` : ""}
+          ${coordinates.radius ? `<distance value="${coordinates.radius}" />` : ""}
+          `
+              : `<error>No valid search parameters provided</error>`
+      }
+    `;
+
   return `
     <?xml version="1.0" encoding="UTF-8"?>
     <envelope>
       ${getHeader()}
-
       <query type="availability" product="hotel">
-
-        <!-- Location (longitude, latitude, distance) -->
-        ${
-          params.search?.coordinates
-            ? `
-          <longitude value="${params.search.coordinates.longitude}" />
-          <latitude value="${params.search.coordinates.latitude}" />
-          <distance value="2500" />
-        `
-            : ""
-        }
-
-        <!-- Fixed filters -->
+        <checkin date="${params.checkIn}" />
+        <checkout date="${params.checkOut}" />
+        ${searchParams.trim()}
         <filters>
           <filter>BESTARRANGMENT</filter>
         </filters>
-
-        <!-- Dynamic check-in and check-out dates -->
-        <checkin date="${params.checkIn}" />
-        <checkout date="${params.checkOut}" />
-
         <details>
             <room  required="1" cot="false" occupancy="2"/>
         </details>
