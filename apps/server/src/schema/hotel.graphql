@@ -12,11 +12,11 @@ type AvailabilityResponse {
   """
   Search parameters used for the query.
   """
-  params: AvailabilityParams!
+  params: AvailabilityParams
   """
   Timing information for the response, including total and provider-specific times.
   """
-  responseTime: ResponseTime!
+  responseTime: ResponseTime
   """
   Paginated connection of hotels returned by the search.
   """
@@ -34,7 +34,7 @@ type HotelConnection {
   """
   List of edges representing individual hotels in the connection.
   """
-  edges: [HotelEdge!]!
+  edges: [HotelEdge!]
   """
   Information about the current page in the connection.
   """
@@ -82,7 +82,7 @@ type Hotel {
   """
   The city where the hotel is located.
   """
-  city: String!
+  city: String
   """
   Additional data about the hotel, such as pictures and descriptions.
   """
@@ -90,7 +90,7 @@ type Hotel {
   """
   Paginated connection of agreements related to the hotel.
   """
-  agreements: AgreementConnection!
+  agreements: AgreementConnection
 }
 
 """
@@ -105,78 +105,4 @@ type HotelAdditionalData {
   A textual description of the hotel.
   """
   description: String
-}
-
-"""
-Connection type for paginated agreement results.
-"""
-type AgreementConnection {
-  """
-  Total number of agreements available for the hotel.
-  """
-  totalCount: Int!
-  """
-  List of edges representing individual agreements in the connection.
-  """
-  edges: [AgreementEdge!]!
-  """
-  Information about the current page in the connection.
-  """
-  pageInfo: PageInfo!
-  """
-  The agreement with the lowest price in the connection.
-  """
-  cheapestAgreement: Agreement
-}
-
-"""
-An edge representing a single agreement in the connection.
-"""
-type AgreementEdge {
-  """
-  Cursor pointing to this specific agreement.
-  """
-  cursor: String!
-  """
-  The agreement data.
-  """
-  node: Agreement!
-}
-
-"""
-Represents an agreement related to a hotel, including pricing and availability details.
-"""
-type Agreement {
-  """
-  The unique identifier of the agreement.
-  """
-  id: ID!
-  """
-  Type of room associated with this agreement.
-  """
-  roomType: String!
-  """
-  Whether this agreement is currently available.
-  """
-  available: Boolean!
-  """
-  The room basis of the agreement (e.g., single, double).
-  """
-  roomBasis: String!
-  """
-  The meal basis included in the agreement (e.g., breakfast, all-inclusive).
-  """
-  mealBasis: String!
-  """
-  The type of agreement (e.g., refundable or non-refundable).
-  """
-  ctype: String!
-  """
-  The total price of the agreement.
-  """
-  price: Price!
-  """
-  Whether this agreement is fully refundable.
-  """
-  isFullyRefundable: Boolean!
 }

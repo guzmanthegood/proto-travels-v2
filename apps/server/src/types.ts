@@ -99,9 +99,9 @@ export type AvailabilityResponse = {
   /** Unique identifier for the availability search. */
   id: Scalars['ID']['output'];
   /** Search parameters used for the query. */
-  params: AvailabilityParams;
+  params?: Maybe<AvailabilityParams>;
   /** Timing information for the response, including total and provider-specific times. */
-  responseTime: ResponseTime;
+  responseTime?: Maybe<ResponseTime>;
 };
 
 /** Type for geographical coordinates and radius in the response. */
@@ -142,9 +142,9 @@ export type Hotel = {
   /** The address of the hotel. This field is optional. */
   address?: Maybe<Scalars['String']['output']>;
   /** Paginated connection of agreements related to the hotel. */
-  agreements: AgreementConnection;
+  agreements?: Maybe<AgreementConnection>;
   /** The city where the hotel is located. */
-  city: Scalars['String']['output'];
+  city?: Maybe<Scalars['String']['output']>;
   /** The unique code identifying the hotel. */
   code: Scalars['String']['output'];
   /** The name of the hotel. */
@@ -168,7 +168,7 @@ export type HotelAdditionalData = {
 export type HotelConnection = {
   __typename?: 'HotelConnection';
   /** List of edges representing individual hotels in the connection. */
-  edges: Array<HotelEdge>;
+  edges?: Maybe<Array<HotelEdge>>;
   /** Information about the current page in the connection. */
   pageInfo: PageInfo;
   /** Total number of hotels available in the search. */
@@ -224,7 +224,7 @@ export type Query = {
 
 
 export type QueryAvailabilityArgs = {
-  params?: InputMaybe<AvailabilityParamsInput>;
+  params: AvailabilityParamsInput;
 };
 
 /**
@@ -470,8 +470,8 @@ export type AvailabilityParamsResolvers<ContextType = any, ParentType extends Re
 export type AvailabilityResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AvailabilityResponse'] = ResolversParentTypes['AvailabilityResponse']> = {
   hotelsConnection?: Resolver<ResolversTypes['HotelConnection'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  params?: Resolver<ResolversTypes['AvailabilityParams'], ParentType, ContextType>;
-  responseTime?: Resolver<ResolversTypes['ResponseTime'], ParentType, ContextType>;
+  params?: Resolver<Maybe<ResolversTypes['AvailabilityParams']>, ParentType, ContextType>;
+  responseTime?: Resolver<Maybe<ResolversTypes['ResponseTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -491,8 +491,8 @@ export type CurrencyResolvers<ContextType = any, ParentType extends ResolversPar
 export type HotelResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hotel'] = ResolversParentTypes['Hotel']> = {
   additionalData?: Resolver<Maybe<ResolversTypes['HotelAdditionalData']>, ParentType, ContextType>;
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  agreements?: Resolver<ResolversTypes['AgreementConnection'], ParentType, ContextType>;
-  city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  agreements?: Resolver<Maybe<ResolversTypes['AgreementConnection']>, ParentType, ContextType>;
+  city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   promo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -507,7 +507,7 @@ export type HotelAdditionalDataResolvers<ContextType = any, ParentType extends R
 };
 
 export type HotelConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['HotelConnection'] = ResolversParentTypes['HotelConnection']> = {
-  edges?: Resolver<Array<ResolversTypes['HotelEdge']>, ParentType, ContextType>;
+  edges?: Resolver<Maybe<Array<ResolversTypes['HotelEdge']>>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -538,7 +538,7 @@ export type PriceResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  availability?: Resolver<ResolversTypes['AvailabilityResponse'], ParentType, ContextType, Partial<QueryAvailabilityArgs>>;
+  availability?: Resolver<ResolversTypes['AvailabilityResponse'], ParentType, ContextType, RequireFields<QueryAvailabilityArgs, 'params'>>;
 };
 
 export type ResponseTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResponseTime'] = ResolversParentTypes['ResponseTime']> = {

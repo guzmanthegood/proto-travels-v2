@@ -80,6 +80,20 @@ input SortInput {
 }
 
 """
+Type for sorting options in the response.
+"""
+type SortDetails {
+  """
+  The field that was used to sort the results (e.g., price, name).
+  """
+  field: SortField!
+  """
+  The order of sorting (e.g., ascending, descending).
+  """
+  order: SortOrder!
+}
+
+"""
 Enumeration for sortable fields.
 """
 enum SortField {

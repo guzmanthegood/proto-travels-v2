@@ -1,4 +1,4 @@
-import { MutationResolvers } from "../types"; // Importa los tipos generados
+import { MutationResolvers } from "../types";
 
 export const mutationResolver: MutationResolvers = {
   addBook: async (_, { author, title }) => {

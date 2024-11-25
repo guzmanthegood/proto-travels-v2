@@ -1,4 +1,3 @@
-// Importar resolvers desde los módulos
 import { queryResolver } from "./queryResolver";
 import { mutationResolver } from "./mutationResolver";
 

@@ -65,17 +65,3 @@ input CoordinatesInput {
   """
   radius: Int!
 }
-
-"""
-Input type for sorting options.
-"""
-input SortInput {
-  """
-  The field to sort by (e.g., price, name).
-  """
-  field: SortField!
-  """
-  The order of sorting (e.g., ascending, descending).
-  """
-  order: SortOrder!
-}
