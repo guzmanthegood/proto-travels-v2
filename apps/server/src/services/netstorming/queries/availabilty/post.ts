@@ -1,4 +1,6 @@
 import netstormingClient from "../../client";
+
+import { generateXmlEnvelope } from "../../xmlEnvelope";
 import { generateAvailabilityRequest } from "./request";
 import { parseResponse } from "./parse";
 
@@ -12,7 +14,8 @@ import { Hotel, AvailabilityParamsInput } from "../../../../schema/types";
 export const availability = async (
   params: AvailabilityParamsInput
 ): Promise<Hotel[]> => {
-  const xmlRequest = generateAvailabilityRequest(params);
+  const queryContent = generateAvailabilityRequest(params);
+  const xmlRequest = generateXmlEnvelope("availability", "hotel", queryContent);
 
   try {
     // Fetch netstorming availability query

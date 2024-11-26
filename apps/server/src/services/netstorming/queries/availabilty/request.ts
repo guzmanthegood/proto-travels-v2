@@ -27,21 +27,16 @@ export const generateAvailabilityRequest = (
       }
     `;
 
+  // Generate the full query content
   return `
-    <?xml version="1.0" encoding="UTF-8"?>
-    <envelope>
-      ${getHeader()}
-      <query type="availability" product="hotel">
-        <checkin date="${params.checkIn}" />
-        <checkout date="${params.checkOut}" />
-        ${searchParams.trim()}
-        <filters>
-          <filter>BESTARRANGMENT</filter>
-        </filters>
-        <details>
-            <room  required="1" cot="false" occupancy="2"/>
-        </details>
-      </query>
-    </envelope>
-  `;
+    <checkin date="${params.checkIn}" />
+    <checkout date="${params.checkOut}" />
+    ${searchParams.trim()}
+    <filters>
+      <filter>BESTARRANGMENT</filter>
+    </filters>
+    <details>
+      <room required="1" cot="false" occupancy="2" />
+    </details>
+  `.trim();
 };
