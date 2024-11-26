@@ -62,7 +62,7 @@ input SortInput {
   """
   The order of sorting (e.g., ascending, descending).
   """
-  order: SortOrder!
+  order: SortOrder
 }
 
 """
@@ -76,7 +76,7 @@ type SortDetails {
   """
   The order of sorting (e.g., ascending, descending).
   """
-  order: SortOrder!
+  order: SortOrder
 }
 
 """
@@ -97,6 +97,8 @@ enum SortField {
 Enumeration for sorting order.
 """
 enum SortOrder {
+  AAA
+  XXX
   """
   Ascending order.
   """

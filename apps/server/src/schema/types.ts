@@ -269,7 +269,7 @@ export type SortDetails = {
   /** The field that was used to sort the results (e.g., price, name). */
   field: SortField;
   /** The order of sorting (e.g., ascending, descending). */
-  order: SortOrder;
+  order?: Maybe<SortOrder>;
 };
 
 /** Enumeration for sortable fields. */
@@ -285,15 +285,17 @@ export type SortInput = {
   /** The field to sort by (e.g., price, name). */
   field: SortField;
   /** The order of sorting (e.g., ascending, descending). */
-  order: SortOrder;
+  order?: InputMaybe<SortOrder>;
 };
 
 /** Enumeration for sorting order. */
 export enum SortOrder {
+  Aaa = 'AAA',
   /** Ascending order. */
   Asc = 'ASC',
   /** Descending order. */
-  Desc = 'DESC'
+  Desc = 'DESC',
+  Xxx = 'XXX'
 }
 
 
@@ -551,7 +553,7 @@ export type SearchDetailsResolvers<ContextType = any, ParentType extends Resolve
 
 export type SortDetailsResolvers<ContextType = any, ParentType extends ResolversParentTypes['SortDetails'] = ResolversParentTypes['SortDetails']> = {
   field?: Resolver<ResolversTypes['SortField'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['SortOrder'], ParentType, ContextType>;
+  order?: Resolver<Maybe<ResolversTypes['SortOrder']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

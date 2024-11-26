@@ -28,8 +28,9 @@ export const availability = async (
 
     // Sort hotels based on the sort parameter, with a default value if sort is undefined or null
     const sort = params.sort
-      ? { field: params.sort.field, order: params.sort.order }
+      ? { field: params.sort.field, order: params.sort.order || "ASC" }
       : { field: "PRICE", order: "ASC" };
+
     hotels = sortHotels(hotels, sort);
 
     // Create and return a HotelConnection
@@ -52,7 +53,7 @@ export const availability = async (
  */
 function sortHotels(
   hotels: Hotel[],
-  sort: { field: string; order: string } = { field: "PRICE", order: "ASC" }
+  sort: { field: string; order: string }
 ): Hotel[] {
   const { field, order } = sort;
 
@@ -63,7 +64,6 @@ function sortHotels(
 
     switch (field) {
       case "PRICE":
-        // TODO: get cheapest agreement price
         comparison =
           (a.agreements?.cheapestAgreement?.price.amount || 0) -
           (b.agreements?.cheapestAgreement?.price.amount || 0);
