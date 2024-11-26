@@ -94,6 +94,8 @@ export type Hotel = {
   __typename?: 'Hotel';
   /** The address of the hotel. This field is optional. */
   address?: Maybe<Scalars['String']['output']>;
+  /** The cheapest option available for the hotel. */
+  cheapestOption?: Maybe<Option>;
   /** The city where the hotel is located. */
   city?: Maybe<Scalars['String']['output']>;
   /** The unique code identifying the hotel. */
@@ -423,6 +425,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type HotelResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hotel'] = ResolversParentTypes['Hotel']> = {
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  cheapestOption?: Resolver<Maybe<ResolversTypes['Option']>, ParentType, ContextType>;
   city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

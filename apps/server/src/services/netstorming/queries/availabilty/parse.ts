@@ -27,6 +27,7 @@ export const parseResponse = async (xmlResponse: string): Promise<Hotel[]> => {
         promo: hotel?.$?.promo === "true",
         city: hotel?.$?.city || null,
         options: options,
+        cheapestOption: options && options.length > 0 ? options[0] : null,
         totalOptions: options.length, // Count total options
       };
     });

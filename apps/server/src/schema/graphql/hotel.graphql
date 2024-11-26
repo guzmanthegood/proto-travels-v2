@@ -38,6 +38,10 @@ type Hotel {
   """
   totalOptions: Int!
   """
+  The cheapest option available for the hotel.
+  """
+  cheapestOption: Option
+  """
   A list of options available for the hotel.
   """
   options: [Option!]
