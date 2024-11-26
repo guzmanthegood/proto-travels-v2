@@ -13,19 +13,19 @@ export const parseResponse = async (xmlResponse: string): Promise<Hotel[]> => {
       explicitArray: false,
     });
 
-    // Extract hotels from the response (adjust path based on Netstorming's structure)
+    // Extract hotels from the response
     const hotelsData = parsed?.envelope?.response?.hotels?.hotel || [];
     const hotelsArray = Array.isArray(hotelsData) ? hotelsData : [hotelsData];
 
-    // Map the hotelsArray to the GraphQL Hotel type
     return hotelsArray.map((hotel: any) => ({
-      code: hotel.code || "",
-      name: hotel.name || "",
-      location: {
-        latitude: parseFloat(hotel.latitude) || 0,
-        longitude: parseFloat(hotel.longitude) || 0,
-      },
-      price: parseFloat(hotel.price) || 0,
+      code: hotel?.$?.code || "",
+      name: hotel?.$?.name || "",
+      stars: hotel?.$?.stars || null,
+      address: hotel?.$?.address || null,
+      promo: hotel?.$?.promo === "true",
+      city: hotel?.$?.city || null,
+      agreements: null,
+      additionalData: null,
     }));
   } catch (error: any) {
     const errorMessage = `Error parsing Netstorming response: ${error.message}`;

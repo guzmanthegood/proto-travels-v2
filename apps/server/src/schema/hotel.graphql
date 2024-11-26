@@ -70,7 +70,7 @@ type Hotel {
   """
   The number of stars the hotel is rated with. This field is optional.
   """
-  stars: Int
+  stars: String
   """
   The address of the hotel. This field is optional.
   """

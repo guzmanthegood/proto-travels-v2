@@ -158,7 +158,7 @@ export type Hotel = {
   /** Whether the hotel has an active promotion. */
   promo?: Maybe<Scalars['Boolean']['output']>;
   /** The number of stars the hotel is rated with. This field is optional. */
-  stars?: Maybe<Scalars['Int']['output']>;
+  stars?: Maybe<Scalars['String']['output']>;
 };
 
 /** Additional details about a hotel, resolved separately if needed. */
@@ -508,7 +508,7 @@ export type HotelResolvers<ContextType = any, ParentType extends ResolversParent
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   promo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  stars?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  stars?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
