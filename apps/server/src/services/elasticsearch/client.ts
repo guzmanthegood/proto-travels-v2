@@ -1,4 +1,5 @@
 import { Client } from "@elastic/elasticsearch";
+import { extractRequestDetails } from "./utils";
 
 class ElasticsearchClient {
   private static instance: ElasticsearchClient;
@@ -28,15 +29,20 @@ class ElasticsearchClient {
     index: string,
     response: any
   ): Promise<void> {
+    const xmlRequest = response.config.data;
+    const { type, product } = await extractRequestDetails(xmlRequest);
+
     const log = {
       timestamp: new Date().toISOString(),
       url: response.config.baseURL + response.config.url,
       method: response.config.method,
       status: response.status,
-      request: response.config.data,
-      response: response.data?.slice(0, 1000), // Trim response to 100 characters
+      request: xmlRequest,
+      response: response.data?.slice(0, 1000), // Trim response to 1000 characters
       environment: process.env.NODE_ENV || "development",
       transaction_status: "OK",
+      type,
+      product,
     };
 
     this.client.index({ index, body: log }).catch((err) => {
@@ -55,16 +61,23 @@ class ElasticsearchClient {
     response: any,
     errorMessage: string
   ): Promise<void> {
+    const xmlRequest = response?.config?.data || null;
+    const { type, product } = xmlRequest
+      ? await extractRequestDetails(xmlRequest)
+      : { type: null, product: null };
+
     const log = {
       timestamp: new Date().toISOString(),
       url: response?.config?.baseURL + response?.config?.url || "Unknown URL",
       method: response?.config?.method || "Unknown Method",
       status: response?.status || 0,
-      request: response?.config?.data || null,
+      request: xmlRequest,
       response: response?.data || null,
       environment: process.env.NODE_ENV || "development",
       transaction_status: "ERROR",
       error: errorMessage,
+      type,
+      product,
     };
 
     this.client.index({ index, body: log }).catch((err) => {
