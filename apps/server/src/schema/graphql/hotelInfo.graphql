@@ -146,4 +146,189 @@ type HotelInfo {
   An array of picture URLs for the hotel.
   """
   pictures: [String!]
+
+  """
+  General facilities of the hotel.
+  """
+  hotelFacilities: HotelFacilities
+
+  """
+  Room-specific facilities in the hotel.
+  """
+  roomFacilities: RoomFacilities
+
+  """
+  Descriptions of the hotel in various languages.
+  """
+  description: HotelDescriptions
+}
+
+"""
+Represents descriptions of the hotel in multiple categories and languages.
+"""
+type HotelDescriptions {
+  """
+  Descriptions of the rooms in various languages.
+  """
+  rooms: [LocalizedText!]
+
+  """
+  General descriptions of the hotel in various languages.
+  """
+  general: [LocalizedText!]
+
+  """
+  Descriptions of the hotel's exterior in various languages.
+  """
+  exterior: [LocalizedText!]
+
+  """
+  Descriptions of the hotel's position in various languages.
+  """
+  position: [LocalizedText!]
+
+  """
+  Descriptions of the hotel's lobby in various languages.
+  """
+  lobby: [LocalizedText!]
+}
+
+"""
+Represents localized text in a specific language.
+"""
+type LocalizedText {
+  """
+  The language of the text (e.g., 'en', 'es').
+  """
+  language: String!
+
+  """
+  The content of the text.
+  """
+  text: String!
+}
+
+"""
+Represents the facilities available in a hotel.
+"""
+type HotelFacilities {
+  """
+  The number of double rooms in the hotel.
+  """
+  dbl: String
+
+  """
+  The number of single rooms in the hotel.
+  """
+  sgl: String
+
+  """
+  The number of quadruple rooms in the hotel.
+  """
+  qdr: String
+
+  """
+  The number of twin rooms in the hotel.
+  """
+  twn: String
+
+  """
+  The number of triple rooms in the hotel.
+  """
+  trp: String
+
+  """
+  The number of lifts in the hotel.
+  """
+  lifts: String
+
+  """
+  The voltage in the hotel.
+  """
+  voltage: String
+
+  """
+  The check-in time.
+  """
+  checkIn: String
+
+  """
+  Whether babysitting services are available.
+  """
+  babysitting: Boolean
+
+  """
+  Whether the hotel has laundry services.
+  """
+  laundry: Boolean
+
+  """
+  Whether the hotel has a solarium.
+  """
+  solarium: Boolean
+
+  """
+  Whether the hotel has shuttle services to the airport.
+  """
+  shuttleToAirport: Boolean
+
+  """
+  Whether the hotel has a bar.
+  """
+  bar: Boolean
+
+  """
+  Whether the hotel is non-smoking.
+  """
+  noSmoking: Boolean
+
+  """
+  Other facilities described as text.
+  """
+  otherFacilities: String
+
+  """
+  Whether the hotel has internet access.
+  """
+  internet: Boolean
+}
+
+"""
+Represents the facilities available in hotel rooms.
+"""
+type RoomFacilities {
+  """
+  Whether air conditioning is available in rooms.
+  """
+  airConditioning: Boolean
+
+  """
+  Whether a television is available in rooms.
+  """
+  tv: Boolean
+
+  """
+  Whether a telephone is available in rooms.
+  """
+  telephone: Boolean
+
+  """
+  Whether a hairdryer is available in rooms.
+  """
+  hairdryer: Boolean
+
+  """
+  Whether a safe is available in rooms.
+  """
+  safe: Boolean
+
+  """
+  Whether a radio is available in rooms.
+  """
+  radio: Boolean
+
+  """
+  Whether movies are available in rooms.
+  """
+  film: Boolean
 }

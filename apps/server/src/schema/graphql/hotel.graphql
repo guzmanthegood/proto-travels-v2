@@ -33,18 +33,26 @@ type Hotel {
   The city where the hotel is located.
   """
   city: String
+
   """
   The total number of options available for the hotel.
   """
   totalOptions: Int!
+
   """
   The cheapest option available for the hotel.
   """
   cheapestOption: Option
+
   """
   A list of options available for the hotel.
   """
   options: [Option!]
+
+  """
+  Detailed information about the hotel, if available.
+  """
+  hotelInfo: HotelInfo
 }
 
 """
