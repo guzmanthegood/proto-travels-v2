@@ -16,10 +16,7 @@ export const availabilityResolver = async (
   const hotels = await fetchHotelsFromNetstorming(args.params.search);
   console.log("[Resolvers] Fetched hotels from Netstorming:", hotels.length);
 
-  // Step 2: Extract pagination and sorting parameters from args.params
-  const { first, after, sort } = args.params;
-
-  // Step 3: Use createHotelConnection to generate a connection with extracted parameters
+  // Step 2: Use createHotelConnection to generate a connection with extracted parameters
   const hotelsConnection = createHotelConnection(
     hotels,
     args.params?.sort ?? undefined,
@@ -27,7 +24,7 @@ export const availabilityResolver = async (
     args.params?.after ?? undefined
   );
 
-  // Step 4: Return AvailabilityResponse with the hotel connection
+  // Step 3: Return AvailabilityResponse with the hotel connection
   return {
     id: "availability-id", // Generate a unique ID
     params: args.params, // Pass search parameters
