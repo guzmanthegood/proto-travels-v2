@@ -19,12 +19,21 @@ const generateSearchKey = (params: Record<string, any>): string => {
     return `${year}${month}${day}`;
   };
 
+  // Helper to format coordinates to 5 decimal places and remove the dot
+  const formatCoordinate = (coord: number): string =>
+    coord.toFixed(5).replace(".", "");
+
   // Extract essential parts of the parameters
   const checkIn = formatDate(params.checkIn);
   const checkOut = formatDate(params.checkOut);
   const cityCode = params.search?.cityCode || "";
   const filters = params.filters
     ? [...new Set(params.filters)].sort().join("")
+    : "";
+
+  // Process coordinates if provided
+  const coordinates = params.search?.coordinates
+    ? `${formatCoordinate(params.search.coordinates.latitude)}${formatCoordinate(params.search.coordinates.longitude)}${params.search.coordinates.radius || ""}`
     : "";
 
   // Process room distribution into a compact string
@@ -38,7 +47,7 @@ const generateSearchKey = (params: Record<string, any>): string => {
     : "";
 
   // Concatenate all parts
-  return `${checkIn}${checkOut}${cityCode}${filters}${roomDistribution}`;
+  return `${checkIn}${checkOut}${cityCode}${coordinates}${filters}${roomDistribution}`;
 };
 
 /**

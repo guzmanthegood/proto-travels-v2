@@ -54,8 +54,25 @@ export const convertToAvailabilityParams = (
   const diffInMs = checkOutDate.getTime() - checkInDate.getTime();
   const nights = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
 
+  // Map room details to include in the response
+  const details = input.details
+    ? input.details.map((detail) => ({
+        type: detail.type || null,
+        required: detail.required,
+        occupancy: detail.occupancy,
+        extrabed: detail.extrabed || false,
+        cot: detail.cot || false,
+        age: detail.age || null,
+      }))
+    : [];
+
+  // Process filters: remove duplicates and sort
+  const filters = input.filters ? [...new Set(input.filters)].sort() : [];
+
   return {
     ...input,
     nights,
+    details,
+    filters,
   };
 };
