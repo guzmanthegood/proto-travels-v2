@@ -1,4 +1,0 @@
-# src/schema/queries.graphql
-type Query {
-  availability(params: AvailabilityParamsInput!): AvailabilityResponse!
-}

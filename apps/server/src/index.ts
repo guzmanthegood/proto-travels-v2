@@ -2,8 +2,8 @@
 import "dotenv/config";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import schema from "./schema/loadSchema";
-import { resolvers } from "./resolvers/resolvers";
+import schema from "./schema/schema"; // Importamos el esquema cargado
+import { resolvers } from "./schema/resolvers";
 
 const server = new ApolloServer({
   typeDefs: schema,

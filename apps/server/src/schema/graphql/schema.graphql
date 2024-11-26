@@ -1,0 +1,372 @@
+# src/schema/schema.graphql
+
+"""
+Custom scalar for dates in YYYY-MM-DD format
+"""
+scalar Date
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  """
+  Retrieves availability for hotels based on the given search parameters.
+  """
+  availability(params: AvailabilityParamsInput!): AvailabilityResponse!
+}
+
+type Mutation {
+  """
+  Test mutation
+  """
+  test(params: String): String
+}
+
+"""
+Input type for availability search parameters.
+"""
+input AvailabilityParamsInput {
+  """
+  The check-in date for the search. Must follow the format YYYY-MM-DD.
+  """
+  checkIn: Date!
+
+  """
+  The check-out date for the search. Must follow the format YYYY-MM-DD.
+  """
+  checkOut: Date!
+
+  """
+  Search information for the search, such as city or coordinates.
+  """
+  search: SearchInput!
+
+  """
+  Filters applied to the search.
+  """
+  filters: [String!]
+}
+
+"""
+Input type for specifying the target of the search.
+The search priority is as follows:
+1. If `hotelCode` is provided, only that specific hotel is returned, even if other fields are populated.
+2. If `cityCode` is provided, all hotels in that city are returned, even if `coordinates` are provided.
+3. If neither `hotelCode` nor `cityCode` are provided, `coordinates` with `radius` will be used to search for hotels.
+"""
+input SearchInput {
+  """
+  The code of a specific hotel to search for. Takes highest priority.
+  """
+  hotelCode: String
+
+  """
+  The code of a city to search in. Takes priority over `coordinates` if present.
+  """
+  cityCode: String
+
+  """
+  The geographical coordinates and radius to search around. Used if neither `hotelCode` nor `cityCode` are provided.
+  """
+  coordinates: CoordinatesInput
+}
+
+"""
+Input type for specifying geographical coordinates.
+"""
+input CoordinatesInput {
+  """
+  Latitude of the location.
+  """
+  latitude: Float!
+
+  """
+  Longitude of the location.
+  """
+  longitude: Float!
+
+  """
+  Radius of the search area in kilometers.
+  """
+  radius: Int!
+}
+
+"""
+Type for geographical coordinates and radius in the response.
+"""
+type Coordinates {
+  """
+  Latitude of the location.
+  """
+  latitude: Float!
+
+  """
+  Longitude of the location.
+  """
+  longitude: Float!
+
+  """
+  Radius of the search area in kilometers.
+  """
+  radius: Int
+}
+
+"""
+Enumeration for sortable fields.
+"""
+enum SortField {
+  """
+  Sort by price.
+  """
+  PRICE
+
+  """
+  Sort by name.
+  """
+  NAME
+}
+
+"""
+Enumeration for sorting order.
+"""
+enum SortOrder {
+  """
+  Ascending order.
+  """
+  ASC
+
+  """
+  Descending order.
+  """
+  DESC
+}
+
+"""
+Response for availability queries, containing search parameters, response times,
+and a connection to the list of hotels.
+"""
+type AvailabilityResponse {
+  """
+  Unique identifier for the availability search.
+  """
+  id: ID!
+
+  """
+  Search parameters used for the query.
+  """
+  params: AvailabilityParams
+
+  """
+  Timing information for the response, including total and provider-specific times.
+  """
+  responseTime: ResponseTime
+
+  """
+  Paginated connection of hotels returned by the search.
+  Includes sorting, filtering, and pagination arguments.
+  """
+  hotelsConnection(
+    """
+    Number of results to return from the start.
+    """
+    first: Int = 10
+
+    """
+    Cursor pointing to the last item of the previous page. Used for fetching the next set of results.
+    """
+    after: String
+
+    """
+    Sorting options for the results. Defaults to price ascending.
+    """
+    sort: SortInput = { field: PRICE, order: ASC }
+  ): HotelConnection!
+}
+
+"""
+Connection type for paginated hotel results.
+"""
+type HotelConnection {
+  """
+  Total number of hotels available in the search.
+  """
+  totalCount: Int!
+
+  """
+  List of edges representing individual hotels in the connection.
+  """
+  edges: [HotelEdge!]
+
+  """
+  Information about the current page in the connection.
+  """
+  pageInfo: PageInfo!
+}
+
+"""
+An edge representing a single hotel in the connection.
+"""
+type HotelEdge {
+  """
+  Cursor pointing to this specific hotel.
+  """
+  cursor: String!
+
+  """
+  The hotel data.
+  """
+  node: Hotel!
+}
+
+"""
+Input type for sorting options.
+"""
+input SortInput {
+  """
+  The field to sort by (e.g., price, name).
+  """
+  field: SortField!
+
+  """
+  The order of sorting (e.g., ascending, descending).
+  """
+  order: SortOrder
+}
+
+"""
+Type for sorting options in the response.
+"""
+type SortDetails {
+  """
+  The field that was used to sort the results (e.g., price, name).
+  """
+  field: SortField!
+
+  """
+  The order of sorting (e.g., ascending, descending).
+  """
+  order: SortOrder
+}
+
+"""
+ResponseTime represents the time it took to process and respond to the availability request.
+It can be split into different segments for clarity.
+"""
+type ResponseTime {
+  """
+  The total time taken for the availability response in milliseconds.
+  """
+  total: Float!
+
+  """
+  Time taken by the provider service to return the data
+  """
+  provider: Float!
+}
+
+"""
+Represents a hotel with its basic details and related agreements.
+"""
+type Hotel {
+  """
+  The unique code identifying the hotel.
+  """
+  code: String!
+
+  """
+  The name of the hotel.
+  """
+  name: String!
+
+  """
+  The number of stars the hotel is rated with. This field is optional.
+  """
+  stars: String
+
+  """
+  The address of the hotel. This field is optional.
+  """
+  address: String
+
+  """
+  Whether the hotel has an active promotion.
+  """
+  promo: Boolean
+
+  """
+  The city where the hotel is located.
+  """
+  city: String
+}
+
+"""
+Type for availability search parameters in the response.
+"""
+type AvailabilityParams {
+  """
+  The check-in date for the search.
+  """
+  checkIn: Date!
+
+  """
+  The check-out date for the search.
+  """
+  checkOut: Date!
+
+  """
+  Search information for the search, such as city or coordinates.
+  """
+  search: SearchDetails!
+
+  """
+  Filters applied to the search.
+  """
+  filters: [String!]
+}
+
+"""
+Type for specifying the target of the search in the response.
+"""
+type SearchDetails {
+  """
+  The code of a specific hotel that was searched for.
+  """
+  hotelCode: String
+
+  """
+  The code of a city that was searched in.
+  """
+  cityCode: String
+
+  """
+  The geographical coordinates and radius that were searched around.
+  """
+  coordinates: Coordinates
+}
+
+"""
+PageInfo represents the pagination information for a given connection.
+"""
+type PageInfo {
+  """
+  Whether there are more items after the current set of results.
+  """
+  hasNextPage: Boolean!
+
+  """
+  Whether there are more items before the current set of results.
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  The cursor to be used for fetching the next set of results.
+  """
+  endCursor: String
+
+  """
+  The cursor to be used for fetching the previous set of results.
+  """
+  startCursor: String
+}

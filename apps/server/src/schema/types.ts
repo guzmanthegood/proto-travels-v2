@@ -14,84 +14,33 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  /** Custom scalar for representing dates in YYYY-MM-DD format. */
+  /** Custom scalar for dates in YYYY-MM-DD format */
   Date: { input: any; output: any; }
-};
-
-/** Represents an agreement related to a hotel, including pricing and availability details. */
-export type Agreement = {
-  __typename?: 'Agreement';
-  /** Whether this agreement is currently available. */
-  available: Scalars['Boolean']['output'];
-  /** The type of agreement (e.g., refundable or non-refundable). */
-  ctype: Scalars['String']['output'];
-  /** The unique identifier of the agreement. */
-  id: Scalars['ID']['output'];
-  /** Whether this agreement is fully refundable. */
-  isFullyRefundable: Scalars['Boolean']['output'];
-  /** The meal basis included in the agreement (e.g., breakfast, all-inclusive). */
-  mealBasis: Scalars['String']['output'];
-  /** The total price of the agreement. */
-  price: Price;
-  /** The room basis of the agreement (e.g., single, double). */
-  roomBasis: Scalars['String']['output'];
-  /** Type of room associated with this agreement. */
-  roomType: Scalars['String']['output'];
-};
-
-/** Connection type for paginated agreement results. */
-export type AgreementConnection = {
-  __typename?: 'AgreementConnection';
-  /** The agreement with the lowest price in the connection. */
-  cheapestAgreement?: Maybe<Agreement>;
-  /** List of edges representing individual agreements in the connection. */
-  edges: Array<AgreementEdge>;
-  /** Information about the current page in the connection. */
-  pageInfo: PageInfo;
-  /** Total number of agreements available for the hotel. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** An edge representing a single agreement in the connection. */
-export type AgreementEdge = {
-  __typename?: 'AgreementEdge';
-  /** Cursor pointing to this specific agreement. */
-  cursor: Scalars['String']['output'];
-  /** The agreement data. */
-  node: Agreement;
 };
 
 /** Type for availability search parameters in the response. */
 export type AvailabilityParams = {
   __typename?: 'AvailabilityParams';
   /** The check-in date for the search. */
-  checkIn: Scalars['String']['output'];
+  checkIn: Scalars['Date']['output'];
   /** The check-out date for the search. */
-  checkOut: Scalars['String']['output'];
+  checkOut: Scalars['Date']['output'];
   /** Filters applied to the search. */
   filters?: Maybe<Array<Scalars['String']['output']>>;
   /** Search information for the search, such as city or coordinates. */
   search: SearchDetails;
-  /** Sorting options for the results. */
-  sort?: Maybe<SortDetails>;
 };
 
 /** Input type for availability search parameters. */
 export type AvailabilityParamsInput = {
-  /** Cursor pointing to the last item of the previous page. Used for fetching the next set of results. */
-  after?: InputMaybe<Scalars['String']['input']>;
   /** The check-in date for the search. Must follow the format YYYY-MM-DD. */
   checkIn: Scalars['Date']['input'];
   /** The check-out date for the search. Must follow the format YYYY-MM-DD. */
   checkOut: Scalars['Date']['input'];
   /** Filters applied to the search. */
   filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  /** Number of results to return from the start. */
-  first?: InputMaybe<Scalars['Int']['input']>;
   /** Search information for the search, such as city or coordinates. */
   search: SearchInput;
-  /** Sorting options for the results. Defaults to price ascending. */
-  sort?: InputMaybe<SortInput>;
 };
 
 /**
@@ -100,7 +49,10 @@ export type AvailabilityParamsInput = {
  */
 export type AvailabilityResponse = {
   __typename?: 'AvailabilityResponse';
-  /** Paginated connection of hotels returned by the search. */
+  /**
+   * Paginated connection of hotels returned by the search.
+   * Includes sorting, filtering, and pagination arguments.
+   */
   hotelsConnection: HotelConnection;
   /** Unique identifier for the availability search. */
   id: Scalars['ID']['output'];
@@ -110,13 +62,24 @@ export type AvailabilityResponse = {
   responseTime?: Maybe<ResponseTime>;
 };
 
+
+/**
+ * Response for availability queries, containing search parameters, response times,
+ * and a connection to the list of hotels.
+ */
+export type AvailabilityResponseHotelsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortInput>;
+};
+
 /** Type for geographical coordinates and radius in the response. */
 export type Coordinates = {
   __typename?: 'Coordinates';
   /** Latitude of the location. */
-  latitude?: Maybe<Scalars['Float']['output']>;
+  latitude: Scalars['Float']['output'];
   /** Longitude of the location. */
-  longitude?: Maybe<Scalars['Float']['output']>;
+  longitude: Scalars['Float']['output'];
   /** Radius of the search area in kilometers. */
   radius?: Maybe<Scalars['Int']['output']>;
 };
@@ -134,12 +97,8 @@ export type CoordinatesInput = {
 /** Represents a hotel with its basic details and related agreements. */
 export type Hotel = {
   __typename?: 'Hotel';
-  /** Additional data about the hotel, such as pictures and descriptions. */
-  additionalData?: Maybe<HotelAdditionalData>;
   /** The address of the hotel. This field is optional. */
   address?: Maybe<Scalars['String']['output']>;
-  /** Paginated connection of agreements related to the hotel. */
-  agreements?: Maybe<AgreementConnection>;
   /** The city where the hotel is located. */
   city?: Maybe<Scalars['String']['output']>;
   /** The unique code identifying the hotel. */
@@ -150,15 +109,6 @@ export type Hotel = {
   promo?: Maybe<Scalars['Boolean']['output']>;
   /** The number of stars the hotel is rated with. This field is optional. */
   stars?: Maybe<Scalars['String']['output']>;
-};
-
-/** Additional details about a hotel, resolved separately if needed. */
-export type HotelAdditionalData = {
-  __typename?: 'HotelAdditionalData';
-  /** A textual description of the hotel. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** List of URLs to the hotel's pictures. */
-  pictures?: Maybe<Array<Scalars['String']['output']>>;
 };
 
 /** Connection type for paginated hotel results. */
@@ -183,13 +133,13 @@ export type HotelEdge = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addBook?: Maybe<Scalars['String']['output']>;
+  /** Test mutation */
+  test?: Maybe<Scalars['String']['output']>;
 };
 
 
-export type MutationAddBookArgs = {
-  author: Scalars['String']['input'];
-  title: Scalars['String']['input'];
+export type MutationTestArgs = {
+  params?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** PageInfo represents the pagination information for a given connection. */
@@ -205,17 +155,9 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
-/** Represents the price of an agreement, including currency information. */
-export type Price = {
-  __typename?: 'Price';
-  /** The amount of money for the agreement. */
-  amount: Scalars['Float']['output'];
-  /** The currency of the amount (e.g., USD, EUR). */
-  currency: Scalars['String']['output'];
-};
-
 export type Query = {
   __typename?: 'Query';
+  /** Retrieves availability for hotels based on the given search parameters. */
   availability: AvailabilityResponse;
 };
 
@@ -290,12 +232,10 @@ export type SortInput = {
 
 /** Enumeration for sorting order. */
 export enum SortOrder {
-  Aaa = 'AAA',
   /** Ascending order. */
   Asc = 'ASC',
   /** Descending order. */
-  Desc = 'DESC',
-  Xxx = 'XXX'
+  Desc = 'DESC'
 }
 
 
@@ -369,9 +309,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Agreement: ResolverTypeWrapper<Agreement>;
-  AgreementConnection: ResolverTypeWrapper<AgreementConnection>;
-  AgreementEdge: ResolverTypeWrapper<AgreementEdge>;
   AvailabilityParams: ResolverTypeWrapper<AvailabilityParams>;
   AvailabilityParamsInput: AvailabilityParamsInput;
   AvailabilityResponse: ResolverTypeWrapper<AvailabilityResponse>;
@@ -381,14 +318,12 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Hotel: ResolverTypeWrapper<Hotel>;
-  HotelAdditionalData: ResolverTypeWrapper<HotelAdditionalData>;
   HotelConnection: ResolverTypeWrapper<HotelConnection>;
   HotelEdge: ResolverTypeWrapper<HotelEdge>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
-  Price: ResolverTypeWrapper<Price>;
   Query: ResolverTypeWrapper<{}>;
   ResponseTime: ResolverTypeWrapper<ResponseTime>;
   SearchDetails: ResolverTypeWrapper<SearchDetails>;
@@ -402,9 +337,6 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Agreement: Agreement;
-  AgreementConnection: AgreementConnection;
-  AgreementEdge: AgreementEdge;
   AvailabilityParams: AvailabilityParams;
   AvailabilityParamsInput: AvailabilityParamsInput;
   AvailabilityResponse: AvailabilityResponse;
@@ -414,14 +346,12 @@ export type ResolversParentTypes = {
   Date: Scalars['Date']['output'];
   Float: Scalars['Float']['output'];
   Hotel: Hotel;
-  HotelAdditionalData: HotelAdditionalData;
   HotelConnection: HotelConnection;
   HotelEdge: HotelEdge;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
   PageInfo: PageInfo;
-  Price: Price;
   Query: {};
   ResponseTime: ResponseTime;
   SearchDetails: SearchDetails;
@@ -431,43 +361,16 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
 };
 
-export type AgreementResolvers<ContextType = any, ParentType extends ResolversParentTypes['Agreement'] = ResolversParentTypes['Agreement']> = {
-  available?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  ctype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  isFullyRefundable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  mealBasis?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  price?: Resolver<ResolversTypes['Price'], ParentType, ContextType>;
-  roomBasis?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  roomType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type AgreementConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['AgreementConnection'] = ResolversParentTypes['AgreementConnection']> = {
-  cheapestAgreement?: Resolver<Maybe<ResolversTypes['Agreement']>, ParentType, ContextType>;
-  edges?: Resolver<Array<ResolversTypes['AgreementEdge']>, ParentType, ContextType>;
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
-  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type AgreementEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['AgreementEdge'] = ResolversParentTypes['AgreementEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  node?: Resolver<ResolversTypes['Agreement'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type AvailabilityParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['AvailabilityParams'] = ResolversParentTypes['AvailabilityParams']> = {
-  checkIn?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  checkOut?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  checkIn?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  checkOut?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   filters?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   search?: Resolver<ResolversTypes['SearchDetails'], ParentType, ContextType>;
-  sort?: Resolver<Maybe<ResolversTypes['SortDetails']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AvailabilityResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AvailabilityResponse'] = ResolversParentTypes['AvailabilityResponse']> = {
-  hotelsConnection?: Resolver<ResolversTypes['HotelConnection'], ParentType, ContextType>;
+  hotelsConnection?: Resolver<ResolversTypes['HotelConnection'], ParentType, ContextType, RequireFields<AvailabilityResponseHotelsConnectionArgs, 'first' | 'sort'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   params?: Resolver<Maybe<ResolversTypes['AvailabilityParams']>, ParentType, ContextType>;
   responseTime?: Resolver<Maybe<ResolversTypes['ResponseTime']>, ParentType, ContextType>;
@@ -475,8 +378,8 @@ export type AvailabilityResponseResolvers<ContextType = any, ParentType extends 
 };
 
 export type CoordinatesResolvers<ContextType = any, ParentType extends ResolversParentTypes['Coordinates'] = ResolversParentTypes['Coordinates']> = {
-  latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  latitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  longitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   radius?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -486,20 +389,12 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type HotelResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hotel'] = ResolversParentTypes['Hotel']> = {
-  additionalData?: Resolver<Maybe<ResolversTypes['HotelAdditionalData']>, ParentType, ContextType>;
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  agreements?: Resolver<Maybe<ResolversTypes['AgreementConnection']>, ParentType, ContextType>;
   city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   promo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   stars?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type HotelAdditionalDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['HotelAdditionalData'] = ResolversParentTypes['HotelAdditionalData']> = {
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  pictures?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -517,7 +412,7 @@ export type HotelEdgeResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addBook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddBookArgs, 'author' | 'title'>>;
+  test?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, Partial<MutationTestArgs>>;
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
@@ -525,12 +420,6 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   startCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type PriceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Price'] = ResolversParentTypes['Price']> = {
-  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -558,20 +447,15 @@ export type SortDetailsResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type Resolvers<ContextType = any> = {
-  Agreement?: AgreementResolvers<ContextType>;
-  AgreementConnection?: AgreementConnectionResolvers<ContextType>;
-  AgreementEdge?: AgreementEdgeResolvers<ContextType>;
   AvailabilityParams?: AvailabilityParamsResolvers<ContextType>;
   AvailabilityResponse?: AvailabilityResponseResolvers<ContextType>;
   Coordinates?: CoordinatesResolvers<ContextType>;
   Date?: GraphQLScalarType;
   Hotel?: HotelResolvers<ContextType>;
-  HotelAdditionalData?: HotelAdditionalDataResolvers<ContextType>;
   HotelConnection?: HotelConnectionResolvers<ContextType>;
   HotelEdge?: HotelEdgeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
-  Price?: PriceResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResponseTime?: ResponseTimeResolvers<ContextType>;
   SearchDetails?: SearchDetailsResolvers<ContextType>;

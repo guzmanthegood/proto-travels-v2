@@ -1,4 +1,0 @@
-# src/schema/mutations.graphql
-type Mutation {
-  addBook(title: String!, author: String!): String
-}

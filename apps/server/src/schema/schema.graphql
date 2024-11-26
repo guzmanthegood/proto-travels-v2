@@ -1,5 +1,0 @@
-# src/schema/schema.graphql
-schema {
-  query: Query
-  mutation: Mutation
-}

@@ -1,5 +1,5 @@
 schema:
-  - src/schema/**/*.graphql
+  - src/schema/graphql/**/*.graphql
 generates:
   src/schema/types.ts: # Actualiza la ruta aquí
     plugins:
