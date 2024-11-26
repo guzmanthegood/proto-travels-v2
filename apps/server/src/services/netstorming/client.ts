@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { parseStringPromise } from "xml2js";
+import elasticClient from "../elasticsearch/client";
 
 // Configuración de logging según las variables de entorno
 const LOG_REQUESTS = process.env.NETSTORMING_LOG_REQUESTS === "true"; // Log requests
@@ -39,40 +40,50 @@ netstormingClient.interceptors.request.use(
   }
 );
 
-/**
- * Interceptor for responses to optionally log response details
- * and handle controlled Netstorming errors centrally.
- */
+// Response interceptor
 netstormingClient.interceptors.response.use(
   async (response) => {
-    if (LOG_RESPONSES) {
-      console.log("Netstorming Response:", {
-        status: response.status,
-        data: response.data,
+    try {
+      // Parse the XML response
+      const parsed = await parseStringPromise(response.data, {
+        explicitArray: false,
       });
+
+      // Handle controlled errors in the response
+      const responseType = parsed?.envelope?.response?.$?.type || null;
+      const errorMessage = parsed?.envelope?.response?.message || null;
+
+      if (responseType === "error") {
+        console.error(`[Netstorming Error]: ${errorMessage}`);
+
+        elasticClient.logNetstormingError(
+          "netstorming",
+          response,
+          errorMessage
+        );
+
+        throw new Error(errorMessage);
+      }
+
+      // Log the successful response
+      elasticClient.logNetstormingSuccess("netstorming", response);
+
+      return response;
+    } catch (err: any) {
+      console.error("[Netstorming] Response exception:", err.message);
+      elasticClient.logNetstormingError("netstorming", response, err.message);
+      throw err;
     }
-
-    // Parse the XML response
-    const parsed = await parseStringPromise(response.data, {
-      explicitArray: false,
-    });
-
-    // Handle controlled errors
-    const responseType = parsed?.envelope?.response?.$?.type || null;
-    const errorMessage = parsed?.envelope?.response?.message || null;
-
-    if (responseType === "error") {
-      console.error(errorMessage);
-      throw new Error(errorMessage);
-    }
-
-    // Return the parsed response if no errors
-    return response;
   },
   (error) => {
-    const errorMessage = `Failed to fetch response: ${error.message}`;
-    console.error(errorMessage);
-    return Promise.reject(new Error(errorMessage));
+    const errorMessage = error.message;
+    console.error(`[Netstorming Fetch Error]: ${errorMessage}`);
+    elasticClient.logNetstormingError(
+      "netstorming",
+      error.response || {},
+      errorMessage
+    );
+    return Promise.reject(error);
   }
 );
 
