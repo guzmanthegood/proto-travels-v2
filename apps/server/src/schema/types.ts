@@ -131,15 +131,6 @@ export type CoordinatesInput = {
   radius: Scalars['Int']['input'];
 };
 
-/** Represents a currency with its code and name. */
-export type Currency = {
-  __typename?: 'Currency';
-  /** The code of the currency (e.g., USD, EUR). */
-  code: Scalars['String']['output'];
-  /** The full name of the currency (e.g., United States Dollar, Euro). */
-  name: Scalars['String']['output'];
-};
-
 /** Represents a hotel with its basic details and related agreements. */
 export type Hotel = {
   __typename?: 'Hotel';
@@ -220,7 +211,7 @@ export type Price = {
   /** The amount of money for the agreement. */
   amount: Scalars['Float']['output'];
   /** The currency of the amount (e.g., USD, EUR). */
-  currency: Currency;
+  currency: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -385,7 +376,6 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Coordinates: ResolverTypeWrapper<Coordinates>;
   CoordinatesInput: CoordinatesInput;
-  Currency: ResolverTypeWrapper<Currency>;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Hotel: ResolverTypeWrapper<Hotel>;
@@ -419,7 +409,6 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Coordinates: Coordinates;
   CoordinatesInput: CoordinatesInput;
-  Currency: Currency;
   Date: Scalars['Date']['output'];
   Float: Scalars['Float']['output'];
   Hotel: Hotel;
@@ -490,12 +479,6 @@ export type CoordinatesResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CurrencyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Currency'] = ResolversParentTypes['Currency']> = {
-  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
@@ -545,7 +528,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type PriceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Price'] = ResolversParentTypes['Price']> = {
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  currency?: Resolver<ResolversTypes['Currency'], ParentType, ContextType>;
+  currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -579,7 +562,6 @@ export type Resolvers<ContextType = any> = {
   AvailabilityParams?: AvailabilityParamsResolvers<ContextType>;
   AvailabilityResponse?: AvailabilityResponseResolvers<ContextType>;
   Coordinates?: CoordinatesResolvers<ContextType>;
-  Currency?: CurrencyResolvers<ContextType>;
   Date?: GraphQLScalarType;
   Hotel?: HotelResolvers<ContextType>;
   HotelAdditionalData?: HotelAdditionalDataResolvers<ContextType>;
