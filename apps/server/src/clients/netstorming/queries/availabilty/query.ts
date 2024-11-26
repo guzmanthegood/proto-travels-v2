@@ -1,8 +1,10 @@
 import netstormingClient from "../../netstormingClient";
 import { generateAvailabilityRequest } from "./request";
 import { parseResponse } from "./parseResponse";
-import { createHotelConnection } from "./createHotelConnection";
+import { createConnection } from "../../../../schema/createConnection";
+
 import {
+  Hotel,
   AvailabilityParamsInput,
   HotelConnection,
 } from "../../../../schema/types";
@@ -35,3 +37,15 @@ export const availability = async (
     throw new Error(errorMessage);
   }
 };
+
+export function createHotelConnection(
+  hotels: Hotel[],
+  { first = 10, after }: { first?: number; after?: string | null }
+): HotelConnection {
+  return createConnection({
+    items: hotels,
+    first,
+    after,
+    getCursor: (hotel) => hotel.code,
+  });
+}
