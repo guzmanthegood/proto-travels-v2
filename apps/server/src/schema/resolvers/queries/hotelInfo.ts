@@ -1,3 +1,4 @@
+import { hotelInfo } from "../../../services/netstorming/queries/hotelInfo/post";
 import { HotelInfo } from "../../types";
 
 export const hotelInfoResolver = async (
@@ -5,14 +6,28 @@ export const hotelInfoResolver = async (
   args: { code: string },
   context: any
 ): Promise<HotelInfo> => {
+  const startTime = Date.now();
+
   console.log("[Resolvers] Fetching hotel info for code:", args.code);
 
-  // Placeholder fetch logic
-  // Here we'll fetch the hotel details from the Netstorming service when it's ready.
-  // For now, this resolver returns only mandatory fields.
+  try {
+    // Fetch Netstorming hotel info
+    const hotelDetails = await hotelInfo(args.code);
 
-  return {
-    code: args.code,
-    name: "Placeholder Hotel Name", // Replace with actual name when fetch is implemented.
-  };
+    const endTime = Date.now();
+    const responseTime = ((endTime - startTime) / 1000).toFixed(3);
+
+    console.log(
+      `[Resolvers] Fetched hotel info for code: ${args.code}, response time: ${responseTime}s`
+    );
+
+    // Return the fetched hotel details
+    return hotelDetails;
+  } catch (error: any) {
+    console.error(
+      `[Resolvers] Error fetching hotel info for code: ${args.code}`,
+      error
+    );
+    throw new Error("Failed to fetch hotel info. Please try again later.");
+  }
 };
