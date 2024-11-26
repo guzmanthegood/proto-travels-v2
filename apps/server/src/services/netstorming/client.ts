@@ -59,7 +59,7 @@ netstormingClient.interceptors.response.use(
 
     // Handle controlled errors
     const responseType = parsed?.envelope?.response?.$?.type || null;
-    const errorMessage = parsed?.envelope?.response?._ || null;
+    const errorMessage = parsed?.envelope?.response?.message || null;
 
     if (responseType === "error") {
       console.error(errorMessage);
