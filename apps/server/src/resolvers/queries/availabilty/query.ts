@@ -21,8 +21,18 @@ export const availability: QueryResolvers["availability"] = async (
   const first: number = params?.first ?? 10;
   const parsedParams = parseAvailabilityParams(params);
 
-  // Fetch hotels from Netstorming
+  // Measure provider response time
+  const providerStartTime = Date.now();
   const hotels = await fetchNetstormingAvailability(params);
+  const providerEndTime = Date.now();
+
+  // Calculate times in seconds with two decimals
+  const providerResponseTime = (
+    (providerEndTime - providerStartTime) /
+    1000
+  ).toFixed(2);
+  const endTime = Date.now();
+  const totalResponseTime = ((endTime - startTime) / 1000).toFixed(2);
 
   // Create hotel connection
   const hotelsConnection = createHotelConnection(hotels, {
@@ -30,15 +40,12 @@ export const availability: QueryResolvers["availability"] = async (
     after: params?.after,
   });
 
-  const endTime = Date.now();
-  const totalResponseTime = endTime - startTime;
-
   return {
     id: generateUniqueId(),
     params: parsedParams,
     responseTime: {
-      total: totalResponseTime,
-      provider: 0,
+      total: parseFloat(totalResponseTime),
+      provider: parseFloat(providerResponseTime),
     },
     hotelsConnection,
   };

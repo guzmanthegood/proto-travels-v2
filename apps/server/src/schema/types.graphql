@@ -58,11 +58,11 @@ type ResponseTime {
   """
   The total time taken for the availability response in milliseconds.
   """
-  total: Int!
+  total: Float!
   """
   Time taken by the provider service to return the data
   """
-  provider: Int!
+  provider: Float!
 }
 
 """

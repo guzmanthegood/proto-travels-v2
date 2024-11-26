@@ -240,9 +240,9 @@ export type QueryAvailabilityArgs = {
 export type ResponseTime = {
   __typename?: 'ResponseTime';
   /** Time taken by the provider service to return the data */
-  provider: Scalars['Int']['output'];
+  provider: Scalars['Float']['output'];
   /** The total time taken for the availability response in milliseconds. */
-  total: Scalars['Int']['output'];
+  total: Scalars['Float']['output'];
 };
 
 /** Type for specifying the target of the search in the response. */
@@ -554,8 +554,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type ResponseTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResponseTime'] = ResolversParentTypes['ResponseTime']> = {
-  provider?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  provider?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
