@@ -5,4 +5,4 @@ export const scalars = {
   Date: DateScalar,
 };
 
-console.log("[Scalars] All custom scalars loaded");
+console.log("[Resolvers] All custom scalars loaded");
