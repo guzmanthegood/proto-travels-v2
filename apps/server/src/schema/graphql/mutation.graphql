@@ -1,0 +1,8 @@
+# src/schema/graphql/mutation.graphql
+
+type Mutation {
+  """
+  Test mutation
+  """
+  test(params: String): String
+}

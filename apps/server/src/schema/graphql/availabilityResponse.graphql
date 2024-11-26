@@ -1,0 +1,28 @@
+# src/schema/graphql/availabilityResponse.graphql
+
+"""
+Response for availability queries, containing search parameters, response times,
+and a connection to the list of hotels.
+"""
+type AvailabilityResponse {
+  """
+  Unique identifier for the availability search.
+  """
+  id: ID!
+
+  """
+  Search parameters used for the query.
+  """
+  params: AvailabilityParams
+
+  """
+  Timing information for the response, including total and provider-specific times.
+  """
+  responseTime: ResponseTime
+
+  """
+  Paginated connection of hotels returned by the search.
+  Includes sorting, filtering, and pagination arguments.
+  """
+  hotelsConnection: HotelConnection!
+}

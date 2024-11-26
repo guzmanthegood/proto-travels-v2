@@ -1,0 +1,6 @@
+# src/schema/graphql/scalars.graphql
+
+"""
+Custom scalar for dates in YYYY-MM-DD format
+"""
+scalar Date
