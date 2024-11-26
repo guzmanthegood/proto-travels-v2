@@ -1,13 +1,16 @@
-// hotel/createHotelConnection.ts
-// Utility to create a HotelConnection from a list of hotels
-
-import { PaginationArgs } from "../pagination";
-import { Hotel, HotelConnection } from "../../types";
+import { Hotel, HotelConnection, SortInput } from "../../types";
 
 export const createHotelConnection = (
   hotels: Hotel[],
-  args: PaginationArgs
+  sort?: SortInput,
+  first?: number,
+  after?: string
 ): HotelConnection => {
+  console.log("[HotelConnection] Creating hotel connection with parameters:", {
+    sort,
+    first,
+    after,
+  });
   // Empty connection logic
   if (hotels.length === 0) {
     return {
@@ -23,10 +26,8 @@ export const createHotelConnection = (
   }
 
   // Pagination logic
-  const startIndex = args.after
-    ? hotels.findIndex((h) => h.code === args.after) + 1
-    : 0;
-  const endIndex = startIndex + (args.first || 10);
+  const startIndex = after ? hotels.findIndex((h) => h.code === after) + 1 : 0;
+  const endIndex = startIndex + (first || 10);
 
   const paginatedHotels = hotels.slice(startIndex, endIndex);
 

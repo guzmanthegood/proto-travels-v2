@@ -47,6 +47,20 @@ input AvailabilityParamsInput {
   Filters applied to the search.
   """
   filters: [String!]
+  """
+  Number of results to return from the start.
+  """
+  first: Int = 10
+
+  """
+  Cursor pointing to the last item of the previous page. Used for fetching the next set of results.
+  """
+  after: String
+
+  """
+  Sorting options for the results. Defaults to price ascending.
+  """
+  sort: SortInput = { field: PRICE, order: ASC }
 }
 
 """
@@ -167,22 +181,7 @@ type AvailabilityResponse {
   Paginated connection of hotels returned by the search.
   Includes sorting, filtering, and pagination arguments.
   """
-  hotelsConnection(
-    """
-    Number of results to return from the start.
-    """
-    first: Int = 10
-
-    """
-    Cursor pointing to the last item of the previous page. Used for fetching the next set of results.
-    """
-    after: String
-
-    """
-    Sorting options for the results. Defaults to price ascending.
-    """
-    sort: SortInput = { field: PRICE, order: ASC }
-  ): HotelConnection!
+  hotelsConnection: HotelConnection!
 }
 
 """

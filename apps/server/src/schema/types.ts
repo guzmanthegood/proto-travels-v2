@@ -33,14 +33,20 @@ export type AvailabilityParams = {
 
 /** Input type for availability search parameters. */
 export type AvailabilityParamsInput = {
+  /** Cursor pointing to the last item of the previous page. Used for fetching the next set of results. */
+  after?: InputMaybe<Scalars['String']['input']>;
   /** The check-in date for the search. Must follow the format YYYY-MM-DD. */
   checkIn: Scalars['Date']['input'];
   /** The check-out date for the search. Must follow the format YYYY-MM-DD. */
   checkOut: Scalars['Date']['input'];
   /** Filters applied to the search. */
   filters?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Number of results to return from the start. */
+  first?: InputMaybe<Scalars['Int']['input']>;
   /** Search information for the search, such as city or coordinates. */
   search: SearchInput;
+  /** Sorting options for the results. Defaults to price ascending. */
+  sort?: InputMaybe<SortInput>;
 };
 
 /**
@@ -60,17 +66,6 @@ export type AvailabilityResponse = {
   params?: Maybe<AvailabilityParams>;
   /** Timing information for the response, including total and provider-specific times. */
   responseTime?: Maybe<ResponseTime>;
-};
-
-
-/**
- * Response for availability queries, containing search parameters, response times,
- * and a connection to the list of hotels.
- */
-export type AvailabilityResponseHotelsConnectionArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  sort?: InputMaybe<SortInput>;
 };
 
 /** Type for geographical coordinates and radius in the response. */
@@ -370,7 +365,7 @@ export type AvailabilityParamsResolvers<ContextType = any, ParentType extends Re
 };
 
 export type AvailabilityResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AvailabilityResponse'] = ResolversParentTypes['AvailabilityResponse']> = {
-  hotelsConnection?: Resolver<ResolversTypes['HotelConnection'], ParentType, ContextType, RequireFields<AvailabilityResponseHotelsConnectionArgs, 'first' | 'sort'>>;
+  hotelsConnection?: Resolver<ResolversTypes['HotelConnection'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   params?: Resolver<Maybe<ResolversTypes['AvailabilityParams']>, ParentType, ContextType>;
   responseTime?: Resolver<Maybe<ResolversTypes['ResponseTime']>, ParentType, ContextType>;
