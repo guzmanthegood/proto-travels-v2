@@ -3,8 +3,6 @@
 
 export const mutationResolvers = {
   test: async (parent: any, args: any, context: any) => {
-    console.log("[Resolvers] In test mutation");
-    console.log("Arguments:", args);
     return "Test mutation executed";
   },
 };

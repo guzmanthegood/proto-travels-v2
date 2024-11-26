@@ -6,12 +6,6 @@ export const createHotelConnection = (
   first?: number,
   after?: string
 ): HotelConnection => {
-  console.log("[HotelConnection] Creating hotel connection with parameters:", {
-    sort,
-    first,
-    after,
-  });
-
   // Empty connection logic
   if (hotels.length === 0) {
     return {
