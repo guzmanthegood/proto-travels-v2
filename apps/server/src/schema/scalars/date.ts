@@ -4,22 +4,28 @@ import { isValid, parseISO } from "date-fns";
 /**
  * Custom scalar for dates in YYYY-MM-DD format.
  */
-const DateScalar = new GraphQLScalarType({
+export const DateScalar = new GraphQLScalarType({
   name: "Date",
   description: "Custom scalar for dates in YYYY-MM-DD format",
   parseValue(value) {
     if (typeof value !== "string") {
-      throw new TypeError(`Date value must be a string, received: ${typeof value}`);
+      throw new TypeError(
+        `Date value must be a string, received: ${typeof value}`
+      );
     }
     const parsedDate = parseISO(value);
     if (!isValid(parsedDate)) {
-      throw new Error(`Invalid date format, expected YYYY-MM-DD, received: ${value}`);
+      throw new Error(
+        `Invalid date format, expected YYYY-MM-DD, received: ${value}`
+      );
     }
     return value; // Pass as string to resolvers
   },
   serialize(value) {
     if (typeof value !== "string") {
-      throw new TypeError(`Date value must be a string, received: ${typeof value}`);
+      throw new TypeError(
+        `Date value must be a string, received: ${typeof value}`
+      );
     }
     const parsedDate = parseISO(value);
     if (!isValid(parsedDate)) {
@@ -33,7 +39,9 @@ const DateScalar = new GraphQLScalarType({
     }
     const parsedDate = parseISO(ast.value);
     if (!isValid(parsedDate)) {
-      throw new Error(`Invalid date format, expected YYYY-MM-DD, received: ${ast.value}`);
+      throw new Error(
+        `Invalid date format, expected YYYY-MM-DD, received: ${ast.value}`
+      );
     }
     return ast.value;
   },
