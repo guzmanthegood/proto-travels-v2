@@ -1,0 +1,149 @@
+"""
+Represents detailed information about a hotel.
+"""
+type HotelInfo {
+  """
+  The unique identifier of the hotel.
+  """
+  code: String!
+
+  """
+  The name of the hotel.
+  """
+  name: String!
+
+  """
+  The chain ID the hotel belongs to.
+  """
+  chain: String
+
+  """
+  The number of stars for the hotel.
+  """
+  stars: String
+
+  """
+  The classification of the hotel.
+  """
+  classification: String
+
+  """
+  The address of the hotel.
+  """
+  address: String
+
+  """
+  The city code of the hotel.
+  """
+  city: String
+
+  """
+  The location code of the hotel.
+  """
+  location: String
+
+  """
+  The country code of the hotel.
+  """
+  country: String
+
+  """
+  The email of the hotel.
+  """
+  email: String
+
+  """
+  The telephone number of the hotel.
+  """
+  telephone: String
+
+  """
+  The fax number of the hotel.
+  """
+  fax: String
+
+  """
+  Whether the hotel is active.
+  """
+  active: Boolean
+
+  """
+  Whether air conditioning is available.
+  """
+  airConditioning: Boolean
+
+  """
+  Whether a hairdryer is available in the hotel.
+  """
+  hairdryer: Boolean
+
+  """
+  Whether the hotel is boutique-style.
+  """
+  boutique: Boolean
+
+  """
+  Whether the hotel has a gym.
+  """
+  gym: Boolean
+
+  """
+  Whether the hotel has a sauna.
+  """
+  sauna: Boolean
+
+  """
+  Whether babysitting services are available.
+  """
+  babysitting: Boolean
+
+  """
+  Whether the hotel has a swimming pool.
+  """
+  poolHot: Boolean
+
+  """
+  Whether the hotel is non-smoking.
+  """
+  noSmoking: Boolean
+
+  """
+  Whether the hotel has shuttle services to the airport.
+  """
+  shuttleToAirport: Boolean
+
+  """
+  Whether the hotel has shuttle services to the city center.
+  """
+  shuttleToCenter: Boolean
+
+  """
+  The metro station near the hotel.
+  """
+  metro: String
+
+  """
+  The nearest station name.
+  """
+  station: String
+
+  """
+  The latitude of the hotel.
+  """
+  latitude: Float
+
+  """
+  The longitude of the hotel.
+  """
+  longitude: Float
+
+  """
+  The last modified date of the hotel details.
+  """
+  lastModified: String
+
+  """
+  An array of picture URLs for the hotel.
+  """
+  pictures: [String!]
+}

@@ -134,6 +134,69 @@ export type HotelEdge = {
   node: Hotel;
 };
 
+/** Represents detailed information about a hotel. */
+export type HotelInfo = {
+  __typename?: 'HotelInfo';
+  /** Whether the hotel is active. */
+  active?: Maybe<Scalars['Boolean']['output']>;
+  /** The address of the hotel. */
+  address?: Maybe<Scalars['String']['output']>;
+  /** Whether air conditioning is available. */
+  airConditioning?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether babysitting services are available. */
+  babysitting?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the hotel is boutique-style. */
+  boutique?: Maybe<Scalars['Boolean']['output']>;
+  /** The chain ID the hotel belongs to. */
+  chain?: Maybe<Scalars['String']['output']>;
+  /** The city code of the hotel. */
+  city?: Maybe<Scalars['String']['output']>;
+  /** The classification of the hotel. */
+  classification?: Maybe<Scalars['String']['output']>;
+  /** The unique identifier of the hotel. */
+  code: Scalars['String']['output'];
+  /** The country code of the hotel. */
+  country?: Maybe<Scalars['String']['output']>;
+  /** The email of the hotel. */
+  email?: Maybe<Scalars['String']['output']>;
+  /** The fax number of the hotel. */
+  fax?: Maybe<Scalars['String']['output']>;
+  /** Whether the hotel has a gym. */
+  gym?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether a hairdryer is available in the hotel. */
+  hairdryer?: Maybe<Scalars['Boolean']['output']>;
+  /** The last modified date of the hotel details. */
+  lastModified?: Maybe<Scalars['String']['output']>;
+  /** The latitude of the hotel. */
+  latitude?: Maybe<Scalars['Float']['output']>;
+  /** The location code of the hotel. */
+  location?: Maybe<Scalars['String']['output']>;
+  /** The longitude of the hotel. */
+  longitude?: Maybe<Scalars['Float']['output']>;
+  /** The metro station near the hotel. */
+  metro?: Maybe<Scalars['String']['output']>;
+  /** The name of the hotel. */
+  name: Scalars['String']['output'];
+  /** Whether the hotel is non-smoking. */
+  noSmoking?: Maybe<Scalars['Boolean']['output']>;
+  /** An array of picture URLs for the hotel. */
+  pictures?: Maybe<Array<Scalars['String']['output']>>;
+  /** Whether the hotel has a swimming pool. */
+  poolHot?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the hotel has a sauna. */
+  sauna?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the hotel has shuttle services to the airport. */
+  shuttleToAirport?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the hotel has shuttle services to the city center. */
+  shuttleToCenter?: Maybe<Scalars['Boolean']['output']>;
+  /** The number of stars for the hotel. */
+  stars?: Maybe<Scalars['String']['output']>;
+  /** The nearest station name. */
+  station?: Maybe<Scalars['String']['output']>;
+  /** The telephone number of the hotel. */
+  telephone?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Test mutation */
@@ -353,6 +416,7 @@ export type ResolversTypes = {
   Hotel: ResolverTypeWrapper<Hotel>;
   HotelConnection: ResolverTypeWrapper<HotelConnection>;
   HotelEdge: ResolverTypeWrapper<HotelEdge>;
+  HotelInfo: ResolverTypeWrapper<HotelInfo>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -383,6 +447,7 @@ export type ResolversParentTypes = {
   Hotel: Hotel;
   HotelConnection: HotelConnection;
   HotelEdge: HotelEdge;
+  HotelInfo: HotelInfo;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
@@ -452,6 +517,39 @@ export type HotelEdgeResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type HotelInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['HotelInfo'] = ResolversParentTypes['HotelInfo']> = {
+  active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  airConditioning?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  babysitting?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  boutique?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  chain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  classification?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  fax?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  gym?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  hairdryer?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  lastModified?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  metro?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  noSmoking?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  pictures?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  poolHot?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  sauna?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  shuttleToAirport?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  shuttleToCenter?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  stars?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  station?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  telephone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   test?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, Partial<MutationTestArgs>>;
 };
@@ -513,6 +611,7 @@ export type Resolvers<ContextType = any> = {
   Hotel?: HotelResolvers<ContextType>;
   HotelConnection?: HotelConnectionResolvers<ContextType>;
   HotelEdge?: HotelEdgeResolvers<ContextType>;
+  HotelInfo?: HotelInfoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Option?: OptionResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
