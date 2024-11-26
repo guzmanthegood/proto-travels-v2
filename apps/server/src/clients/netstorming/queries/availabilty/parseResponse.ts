@@ -41,7 +41,7 @@ export const parseResponse = async (xmlResponse: string): Promise<Hotel[]> => {
 
 /**
  * Extracts agreements from a raw XML agreement object.
- * Converts them into an AgreementConnection.
+ * Converts them into an AgreementConnection, including the cheapest agreement.
  * @param agreementsData - Raw agreements data from the XML.
  * @returns An AgreementConnection object.
  */
@@ -66,26 +66,20 @@ const parseAgreements = (agreementsData: any): AgreementConnection => {
     isFullyRefundable: agreement?.$?.is_fully_refundable === "true",
   }));
 
+  // Find the cheapest agreement by price.amount
+  const cheapestAgreement = agreements.reduce((cheapest, current) => {
+    return current.price.amount < cheapest.price.amount ? current : cheapest;
+  }, agreements[0] || null);
+
   // Create AgreementConnection using the helper function
-  return createConnection({
+  const connection = createConnection({
     items: agreements,
     getCursor: (agreement) => agreement.id,
   });
-};
 
-/**
- * Helper function to map currency codes to currency names.
- * This is optional and can be extended to cover more codes.
- * @param code - The currency code (e.g., "EUR").
- * @returns The full name of the currency.
- */
-const getCurrencyName = (code: string): string => {
-  const currencyNames: Record<string, string> = {
-    EUR: "Euro",
-    USD: "United States Dollar",
-    GBP: "British Pound",
-    // Add more currencies as needed
+  // Add the cheapestAgreement to the connection
+  return {
+    ...connection,
+    cheapestAgreement: cheapestAgreement || null, // Handle case when agreements are empty
   };
-
-  return currencyNames[code] || "Unknown Currency";
 };
