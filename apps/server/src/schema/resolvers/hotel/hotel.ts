@@ -1,6 +1,4 @@
-// resolvers/hotel/hotel.ts
-
-import { hotelInfo } from "../../../services/netstorming/queries/queries";
+import { fetchHotelInfoFromCache } from "../../../services/redis/hotelCache";
 
 export const Hotel = {
   hotelInfo: async (parent: any) => {
@@ -10,8 +8,8 @@ export const Hotel = {
     }
 
     try {
-      // Fetch hotel info for the current hotel
-      const hotelDetails = await hotelInfo(parent.code);
+      // Fetch hotel info using Redis cache
+      const hotelDetails = await fetchHotelInfoFromCache(parent.code);
       return hotelDetails;
     } catch (error: any) {
       console.error(
