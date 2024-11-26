@@ -1,0 +1,46 @@
+# src/schema/graphql/option.graphql
+
+"""
+Represents an option related to a hotel, including pricing and availability details.
+"""
+type Option {
+  """
+  The unique identifier of the option.
+  """
+  id: ID!
+
+  """
+  Type of room associated with this option.
+  """
+  roomType: String!
+
+  """
+  Whether this option is currently available.
+  """
+  available: Boolean!
+
+  """
+  The room basis of the option (e.g., single, double).
+  """
+  roomBasis: String!
+
+  """
+  The meal basis included in the option (e.g., breakfast, all-inclusive).
+  """
+  mealBasis: String!
+
+  """
+  The type of option (e.g., refundable or non-refundable).
+  """
+  ctype: String!
+
+  """
+  The total price of the option.
+  """
+  price: Price!
+
+  """
+  Whether this option is fully refundable.
+  """
+  isFullyRefundable: Boolean!
+}

@@ -1,6 +1,20 @@
 # src/schema/graphql/types.graphql
 
 """
+Represents the price of an agreement, including currency information.
+"""
+type Price {
+  """
+  The amount of money for the agreement.
+  """
+  amount: Float!
+  """
+  The currency of the amount (e.g., USD, EUR).
+  """
+  currency: String!
+}
+
+"""
 Type for geographical coordinates and radius in the response.
 """
 type Coordinates {

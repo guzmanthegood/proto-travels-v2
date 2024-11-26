@@ -100,10 +100,14 @@ export type Hotel = {
   code: Scalars['String']['output'];
   /** The name of the hotel. */
   name: Scalars['String']['output'];
+  /** A list of options available for the hotel. */
+  options?: Maybe<Array<Option>>;
   /** Whether the hotel has an active promotion. */
   promo?: Maybe<Scalars['Boolean']['output']>;
   /** The number of stars the hotel is rated with. This field is optional. */
   stars?: Maybe<Scalars['String']['output']>;
+  /** The total number of options available for the hotel. */
+  totalOptions: Scalars['Int']['output'];
 };
 
 /** Connection type for paginated hotel results. */
@@ -137,6 +141,27 @@ export type MutationTestArgs = {
   params?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Represents an option related to a hotel, including pricing and availability details. */
+export type Option = {
+  __typename?: 'Option';
+  /** Whether this option is currently available. */
+  available: Scalars['Boolean']['output'];
+  /** The type of option (e.g., refundable or non-refundable). */
+  ctype: Scalars['String']['output'];
+  /** The unique identifier of the option. */
+  id: Scalars['ID']['output'];
+  /** Whether this option is fully refundable. */
+  isFullyRefundable: Scalars['Boolean']['output'];
+  /** The meal basis included in the option (e.g., breakfast, all-inclusive). */
+  mealBasis: Scalars['String']['output'];
+  /** The total price of the option. */
+  price: Price;
+  /** The room basis of the option (e.g., single, double). */
+  roomBasis: Scalars['String']['output'];
+  /** Type of room associated with this option. */
+  roomType: Scalars['String']['output'];
+};
+
 /** PageInfo represents the pagination information for a given connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -148,6 +173,15 @@ export type PageInfo = {
   hasPreviousPage: Scalars['Boolean']['output'];
   /** The cursor to be used for fetching the previous set of results. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** Represents the price of an agreement, including currency information. */
+export type Price = {
+  __typename?: 'Price';
+  /** The amount of money for the agreement. */
+  amount: Scalars['Float']['output'];
+  /** The currency of the amount (e.g., USD, EUR). */
+  currency: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -318,7 +352,9 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
+  Option: ResolverTypeWrapper<Option>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
+  Price: ResolverTypeWrapper<Price>;
   Query: ResolverTypeWrapper<{}>;
   ResponseTime: ResolverTypeWrapper<ResponseTime>;
   SearchDetails: ResolverTypeWrapper<SearchDetails>;
@@ -346,7 +382,9 @@ export type ResolversParentTypes = {
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
+  Option: Option;
   PageInfo: PageInfo;
+  Price: Price;
   Query: {};
   ResponseTime: ResponseTime;
   SearchDetails: SearchDetails;
@@ -388,8 +426,10 @@ export type HotelResolvers<ContextType = any, ParentType extends ResolversParent
   city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  options?: Resolver<Maybe<Array<ResolversTypes['Option']>>, ParentType, ContextType>;
   promo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   stars?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  totalOptions?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -410,11 +450,29 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   test?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, Partial<MutationTestArgs>>;
 };
 
+export type OptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Option'] = ResolversParentTypes['Option']> = {
+  available?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  ctype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isFullyRefundable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  mealBasis?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Price'], ParentType, ContextType>;
+  roomBasis?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  roomType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   startCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PriceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Price'] = ResolversParentTypes['Price']> = {
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -450,7 +508,9 @@ export type Resolvers<ContextType = any> = {
   HotelConnection?: HotelConnectionResolvers<ContextType>;
   HotelEdge?: HotelEdgeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Option?: OptionResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
+  Price?: PriceResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResponseTime?: ResponseTimeResolvers<ContextType>;
   SearchDetails?: SearchDetailsResolvers<ContextType>;
