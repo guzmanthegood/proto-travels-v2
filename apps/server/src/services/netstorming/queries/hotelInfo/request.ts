@@ -4,5 +4,5 @@
  * @returns A string containing the specific XML content for the query.
  */
 export const generateHotelInfoContent = (code: string): string => {
-  return `<hotel code="${code}" />`;
+  return `<hotel id="${code}" />`;
 };
