@@ -1,20 +1,18 @@
-// resolvers/queries/availability.ts
-// Resolver para la query "availability"
+import { HotelInfo } from "../../types";
 
-export const availabilityResolver = async (
+export const hotelInfoResolver = async (
   parent: any,
-  args: any,
+  args: { code: string },
   context: any
-) => {
-  console.log("[Resolvers] In availability query resolver");
-  console.log("Arguments:", args);
-  console.log("Context:", context);
+): Promise<HotelInfo> => {
+  console.log("[Resolvers] Fetching hotel info for code:", args.code);
 
-  // Aquí irá la lógica de la query (por ahora solo retornamos un mock)
+  // Placeholder fetch logic
+  // Here we'll fetch the hotel details from the Netstorming service when it's ready.
+  // For now, this resolver returns only mandatory fields.
+
   return {
-    id: "availability-id",
-    params: args.params,
-    responseTime: { total: 0, provider: 0 },
-    hotelsConnection: null,
+    code: args.code,
+    name: "Placeholder Hotel Name", // Replace with actual name when fetch is implemented.
   };
 };

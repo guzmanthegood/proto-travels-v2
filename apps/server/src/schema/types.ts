@@ -324,11 +324,18 @@ export type Query = {
   __typename?: 'Query';
   /** Retrieves availability for hotels based on the given search parameters. */
   availability: AvailabilityResponse;
+  /** Retrieves detailed information about a hotel based on its code. */
+  hotelInfo?: Maybe<HotelInfo>;
 };
 
 
 export type QueryAvailabilityArgs = {
   params: AvailabilityParamsInput;
+};
+
+
+export type QueryHotelInfoArgs = {
+  code: Scalars['String']['input'];
 };
 
 /**
@@ -717,6 +724,7 @@ export type PriceResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   availability?: Resolver<ResolversTypes['AvailabilityResponse'], ParentType, ContextType, RequireFields<QueryAvailabilityArgs, 'params'>>;
+  hotelInfo?: Resolver<Maybe<ResolversTypes['HotelInfo']>, ParentType, ContextType, RequireFields<QueryHotelInfoArgs, 'code'>>;
 };
 
 export type ResponseTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResponseTime'] = ResolversParentTypes['ResponseTime']> = {

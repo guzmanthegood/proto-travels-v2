@@ -5,4 +5,9 @@ type Query {
   Retrieves availability for hotels based on the given search parameters.
   """
   availability(params: AvailabilityParamsInput!): AvailabilityResponse!
+
+  """
+  Retrieves detailed information about a hotel based on its code.
+  """
+  hotelInfo(code: String!): HotelInfo
 }
