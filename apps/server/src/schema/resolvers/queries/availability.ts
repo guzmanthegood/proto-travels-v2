@@ -1,6 +1,6 @@
 // resolvers/queries/availability.ts
 
-import { availability } from "../../../services/netstorming/queries/queries";
+import { fetchSearchFromCache } from "../../../services/redis/searchCache";
 import { generateUniqueId } from "../../../utils/helpers";
 import {
   AvailabilityParams,
@@ -17,7 +17,7 @@ export const availabilityResolver = async (
   const startTime = Date.now();
 
   // Fetch Netstorming availability
-  const hotels = await availability(args.params);
+  const hotels = await fetchSearchFromCache(args.params);
   const prvEndTime = Date.now();
 
   // Create new connection with extracted parameters
