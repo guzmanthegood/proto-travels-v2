@@ -3,7 +3,7 @@ import {
   HotelConnection,
   HotelEdge,
   PageInfo,
-} from "../../../schema/types";
+} from "../../../../schema/types";
 
 type ConnectionParams = {
   first?: number;
@@ -44,7 +44,7 @@ export function createHotelConnection(
   const paginatedHotels = hotels.slice(offset, offset + first);
 
   // Create edges with a unique cursor for each hotel
-  const edges: HotelEdge[] = paginatedHotels.map((hotel, index) => ({
+  const edges: HotelEdge[] = paginatedHotels.map((hotel) => ({
     cursor: hotel.code,
     node: hotel,
   }));

@@ -1,24 +1,34 @@
 import netstormingClient from "../../netstormingClient";
 import { generateAvailabilityRequest } from "./request";
-import { AvailabilityParamsInput, Hotel } from "../../../../schema/types";
 import { parseResponse } from "./parseResponse";
+import { createHotelConnection } from "./createHotelConnection";
+import {
+  AvailabilityParamsInput,
+  HotelConnection,
+} from "../../../../schema/types";
 
 /**
- * Calls Netstorming's availability API and returns a list of hotels.
+ * Calls Netstorming's availability API and returns a HotelConnection.
  * @param params - Parameters for the availability query.
- * @returns A promise resolving to a list of hotels (Hotel[]), which could be empty.
+ * @returns A promise resolving to a HotelConnection.
  */
 export const availability = async (
   params: AvailabilityParamsInput
-): Promise<Hotel[]> => {
+): Promise<HotelConnection> => {
   const xmlRequest = generateAvailabilityRequest(params);
 
   try {
     // Fetch netstorming availability query
     const response = await netstormingClient.post("/", xmlRequest);
 
-    // Parse the XML response and return the list of hotels
-    return await parseResponse(response.data);
+    // Parse the XML response into hotels
+    const hotels = await parseResponse(response.data);
+
+    // Create and return a HotelConnection
+    return createHotelConnection(hotels, {
+      first: params?.first ?? undefined,
+      after: params?.after,
+    });
   } catch (error: any) {
     const errorMessage = `Netstorming availability error: ${error.message}`;
     console.error(errorMessage);

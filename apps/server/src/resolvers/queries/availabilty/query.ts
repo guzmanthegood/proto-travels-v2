@@ -1,6 +1,5 @@
-import { QueryResolvers, SortField, SortOrder } from "../../../schema/types";
+import { QueryResolvers } from "../../../schema/types";
 import { availability as fetchNetstormingAvailability } from "../../../clients/netstorming/queries/queries";
-import { createHotelConnection } from "./createHotelConnection";
 import { parseAvailabilityParams } from "./parseAvailabilityParams";
 import { generateUniqueId } from "../../../utils/helpers";
 
@@ -18,12 +17,11 @@ export const availability: QueryResolvers["availability"] = async (
     );
   }
 
-  const first: number = params?.first ?? 10;
   const parsedParams = parseAvailabilityParams(params);
 
-  // Measure provider response time
+  // Fetch provider with response time
   const providerStartTime = Date.now();
-  const hotels = await fetchNetstormingAvailability(params);
+  const hotelsConnection = await fetchNetstormingAvailability(params);
   const providerEndTime = Date.now();
 
   // Calculate times in seconds with two decimals
@@ -33,12 +31,6 @@ export const availability: QueryResolvers["availability"] = async (
   ).toFixed(2);
   const endTime = Date.now();
   const totalResponseTime = ((endTime - startTime) / 1000).toFixed(2);
-
-  // Create hotel connection
-  const hotelsConnection = createHotelConnection(hotels, {
-    first,
-    after: params?.after,
-  });
 
   return {
     id: generateUniqueId(),
