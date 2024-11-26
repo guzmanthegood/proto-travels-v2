@@ -11,6 +11,7 @@ export const createHotelConnection = (
     first,
     after,
   });
+
   // Empty connection logic
   if (hotels.length === 0) {
     return {
@@ -25,11 +26,41 @@ export const createHotelConnection = (
     };
   }
 
+  // Sort logic
+  let sortedHotels = [...hotels];
+  if (sort) {
+    sortedHotels.sort((a, b) => {
+      const isAscending = sort.order === "ASC";
+      let comparison = 0;
+
+      switch (sort.field) {
+        case "NAME":
+          comparison = a.name.localeCompare(b.name); // Compare names alphabetically
+          break;
+
+        case "PRICE":
+          const priceA =
+            a.cheapestOption?.price?.amount || Number.MAX_SAFE_INTEGER;
+          const priceB =
+            b.cheapestOption?.price?.amount || Number.MAX_SAFE_INTEGER;
+          comparison = priceA - priceB; // Compare prices numerically
+          break;
+
+        default:
+          break;
+      }
+
+      return isAscending ? comparison : -comparison;
+    });
+  }
+
   // Pagination logic
-  const startIndex = after ? hotels.findIndex((h) => h.code === after) + 1 : 0;
+  const startIndex = after
+    ? sortedHotels.findIndex((h) => h.code === after) + 1
+    : 0;
   const endIndex = startIndex + (first || 10);
 
-  const paginatedHotels = hotels.slice(startIndex, endIndex);
+  const paginatedHotels = sortedHotels.slice(startIndex, endIndex);
 
   const edges = paginatedHotels.map((hotel) => ({
     cursor: hotel.code,
