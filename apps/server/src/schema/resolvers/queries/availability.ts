@@ -1,7 +1,7 @@
 // resolvers/queries/availability.ts
 // Resolver for the "availability" query
 
-import { fetchHotelsFromNetstorming } from "../../../services/netstorming/client";
+import { availability } from "../../../services/netstorming/queries/queries";
 import { AvailabilityParamsInput, AvailabilityResponse } from "../../types";
 import { createHotelConnection } from "../hotel/hotelConnection";
 
@@ -13,7 +13,7 @@ export const availabilityResolver = async (
   console.log("[Resolvers] In availability query resolver, arguments: ", args);
 
   // Step 1: Fetch hotels from Netstorming
-  const hotels = await fetchHotelsFromNetstorming(args.params.search);
+  const hotels = await availability(args.params);
   console.log("[Resolvers] Fetched hotels from Netstorming:", hotels.length);
 
   // Step 2: Use createHotelConnection to generate a connection with extracted parameters
