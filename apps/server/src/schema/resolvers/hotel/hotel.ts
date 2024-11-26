@@ -3,12 +3,6 @@
 import { hotelInfo } from "../../../services/netstorming/queries/queries";
 
 export const Hotel = {
-  promo: (parent: any) => {
-    return parent.promo || false;
-  },
-  stars: (parent: any) => {
-    return parent.stars || "0";
-  },
   hotelInfo: async (parent: any) => {
     if (!parent.code) {
       console.warn("[Resolvers] Missing hotel code for fetching hotelInfo");
