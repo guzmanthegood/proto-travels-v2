@@ -1,20 +1,33 @@
 // resolvers/queries/availability.ts
-// Resolver para la query "availability"
+// Resolver for the "availability" query
+
+import { fetchHotelsFromNetstorming } from "../../../services/netstorming/client";
+import { AvailabilityParamsInput, AvailabilityResponse } from "../../types";
+import { createHotelConnection } from "../hotel/hotelConnection";
 
 export const availabilityResolver = async (
   parent: any,
-  args: any,
+  args: { params: AvailabilityParamsInput }, // Define the expected input type
   context: any
-) => {
-  console.log("[Resolvers] In availability query resolver");
-  console.log("Arguments:", args);
-  console.log("Context:", context);
+): Promise<AvailabilityResponse> => {
+  console.log("[Resolvers] In availability query resolver, arguments: ", args);
 
-  // Aquí irá la lógica de la query (por ahora solo retornamos un mock)
+  // Step 1: Fetch hotels from Netstorming
+  const hotels = await fetchHotelsFromNetstorming(args.params.search);
+  console.log("[Resolvers] Fetched hotels from Netstorming:", hotels.length);
+
+  // Step 2: Use createHotelConnection to generate a connection
+  const hotelsConnection = createHotelConnection(hotels, {
+    first: 10,
+    after: undefined, // Passing undefined instead of null
+    sort: { field: "PRICE", order: "DESC" },
+  });
+
+  // Step 2: Return AvailabilityResponse with hotels (to be resolved later)
   return {
-    id: "availability-id",
-    params: args.params,
-    responseTime: { total: 0, provider: 0 },
-    hotelsConnection: null,
+    id: "availability-id", // Generate a unique ID
+    params: args.params, // Pass search parameters
+    responseTime: { total: 0, provider: 0 }, // Mock timing info
+    hotelsConnection: hotelsConnection, // Pass hotels for HotelConnection resolver
   };
 };

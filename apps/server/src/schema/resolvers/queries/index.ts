@@ -3,6 +3,7 @@
 
 import { availabilityResolver } from "./availability";
 
+
 export const queryResolvers = {
   availability: availabilityResolver,
 };

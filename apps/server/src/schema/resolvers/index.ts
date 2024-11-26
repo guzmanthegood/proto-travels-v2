@@ -1,17 +1,15 @@
 // resolvers/index.ts
-// Centraliza los resolvers para queries, mutations y tipos personalizados
+// Aggregates resolvers for queries, mutations, custom types, and scalars
 
-import { queryResolvers } from "./queries"; // Resolvers para las queries
-import { mutationResolvers } from "./mutations"; // Resolvers para las mutations
-import { Hotel } from "./hotel/hotel"; // Resolvers específicos para el tipo Hotel
-import { HotelConnection } from "./hotel/hotelConnection"; // Resolvers para HotelConnection
-import { scalars } from "./../scalars"; // Import custom scalars
+import { queryResolvers } from "./queries";
+import { mutationResolvers } from "./mutations";
+import { Hotel } from "./hotel/hotel";
+import { scalars } from "../scalars";
 
 export const resolvers = {
   Query: queryResolvers,
   Mutation: mutationResolvers,
-  Hotel, // Resolver para el tipo Hotel
-  HotelConnection, // Resolver para la conexión de hoteles
+  Hotel,
   ...scalars,
 };
 
