@@ -23,9 +23,12 @@ const generateSearchKey = (params: Record<string, any>): string => {
   const checkIn = formatDate(params.checkIn);
   const checkOut = formatDate(params.checkOut);
   const cityCode = params.search?.cityCode || "";
+  const filters = params.filters
+    ? [...new Set(params.filters)].sort().join("")
+    : "";
 
   // Concatenate the essential parts
-  return `${checkIn}${checkOut}${cityCode}`;
+  return `${checkIn}${checkOut}${cityCode}${filters}`;
 };
 
 /**

@@ -11,6 +11,7 @@ export const generateAvailabilityRequest = (
 ): string => {
   // Generate search parameters based on priority: hotel > city > coordinates
   const { hotelCode, cityCode, coordinates } = params.search;
+
   const searchParams = `
       ${
         hotelCode
@@ -27,13 +28,18 @@ export const generateAvailabilityRequest = (
       }
     `;
 
+  // Generate filters XML
+  const filtersXml = params.filters
+    ? params.filters.map((filter) => `<filter>${filter}</filter>`).join("")
+    : "";
+
   // Generate the full query content
   return `
     <checkin date="${params.checkIn}" />
     <checkout date="${params.checkOut}" />
     ${searchParams.trim()}
     <filters>
-      <filter>BESTARRANGMENT</filter>
+      ${filtersXml}
     </filters>
     <details>
       <room required="1" cot="false" occupancy="2" />

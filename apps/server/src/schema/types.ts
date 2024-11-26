@@ -25,7 +25,18 @@ export type AvailabilityParams = {
   checkIn: Scalars['Date']['output'];
   /** The check-out date for the search. */
   checkOut: Scalars['Date']['output'];
-  /** Filters applied to the search. */
+  /**
+   * Filters applied to the search. Supported options:
+   * - AVAILONLY
+   * - AVLHEAVY
+   * - BESTPRICE
+   * - BESTCONTRACT
+   * - BESTROOMBASIS
+   * - EXCLUDENONREF
+   * - EXCLUDEDYNAMIC
+   * - REDUCED
+   * - BESTARRANGMENT
+   */
   filters?: Maybe<Array<Scalars['String']['output']>>;
   /** The number of nights between check-in and check-out. */
   nights: Scalars['Int']['output'];
@@ -41,7 +52,18 @@ export type AvailabilityParamsInput = {
   checkIn: Scalars['Date']['input'];
   /** The check-out date for the search. Must follow the format YYYY-MM-DD. */
   checkOut: Scalars['Date']['input'];
-  /** Filters applied to the search. */
+  /**
+   * Filters applied to the search. Supported options:
+   * - AVAILONLY
+   * - AVLHEAVY
+   * - BESTPRICE
+   * - BESTCONTRACT
+   * - BESTROOMBASIS
+   * - EXCLUDENONREF
+   * - EXCLUDEDYNAMIC
+   * - REDUCED
+   * - BESTARRANGMENT
+   */
   filters?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Number of results to return from the start. */
   first?: InputMaybe<Scalars['Int']['input']>;

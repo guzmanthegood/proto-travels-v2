@@ -38,6 +38,12 @@ export const parseResponse = async (
         .filter((desc) => desc.text.trim() !== ""); // Exclude empty texts
     };
 
+    // Helper to ensure field is treated as an array
+    const ensureArray = (field: any): any[] => {
+      if (!field) return [];
+      return Array.isArray(field) ? field : [field];
+    };
+
     // Parse the hotel data, accounting for values stored in "$"
     return {
       code: extractValue(hotel?.id) || "",
@@ -68,7 +74,7 @@ export const parseResponse = async (
       latitude: Number(extractValue(hotel?.lt)) || null,
       longitude: Number(extractValue(hotel?.lg)) || null,
       lastModified: extractValue(hotel?.lastmodified),
-      pictures: (hotel?.pictures?.picture || []).map(
+      pictures: ensureArray(hotel?.pictures?.picture).map(
         (picture: any) => picture?.$?.src || ""
       ),
       hotelFacilities: {
