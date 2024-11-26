@@ -25,6 +25,11 @@ type AvailabilityParams {
   search: SearchDetails!
 
   """
+  Distribution of rooms requested in the search.
+  """
+  details: [RoomDetail!]!
+
+  """
   Filters applied to the search. Supported options:
   - AVAILONLY
   - AVLHEAVY
@@ -37,6 +42,41 @@ type AvailabilityParams {
   - BESTARRANGMENT
   """
   filters: [String!]
+}
+
+"""
+Type for specifying room details in the availability response.
+"""
+type RoomDetail {
+  """
+  Type of the room (e.g., 'single', 'double', 'suite').
+  """
+  type: String
+
+  """
+  How many rooms
+  """
+  required: Int!
+
+  """
+  Whether an extra bed was requested.
+  """
+  extrabed: Boolean
+
+  """
+  Age of the guest(s) in the room, if applicable.
+  """
+  age: Int
+
+  """
+  Whether a cot (baby crib) was requested.
+  """
+  cot: Boolean
+
+  """
+  The occupancy of the room (number of guests).
+  """
+  occupancy: Int!
 }
 
 """

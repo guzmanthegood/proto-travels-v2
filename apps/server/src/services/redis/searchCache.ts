@@ -27,8 +27,18 @@ const generateSearchKey = (params: Record<string, any>): string => {
     ? [...new Set(params.filters)].sort().join("")
     : "";
 
-  // Concatenate the essential parts
-  return `${checkIn}${checkOut}${cityCode}${filters}`;
+  // Process room distribution into a compact string
+  const roomDistribution = params.details
+    ? params.details
+        .map(
+          (detail: any) =>
+            `${detail.type || ""}${detail.required}${detail.occupancy}${detail.extrabed || 0}${detail.cot || 0}${detail.age || ""}`
+        )
+        .join("_")
+    : "";
+
+  // Concatenate all parts
+  return `${checkIn}${checkOut}${cityCode}${filters}${roomDistribution}`;
 };
 
 /**

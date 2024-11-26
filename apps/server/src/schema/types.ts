@@ -25,6 +25,8 @@ export type AvailabilityParams = {
   checkIn: Scalars['Date']['output'];
   /** The check-out date for the search. */
   checkOut: Scalars['Date']['output'];
+  /** Distribution of rooms requested in the search. */
+  details: Array<RoomDetail>;
   /**
    * Filters applied to the search. Supported options:
    * - AVAILONLY
@@ -52,6 +54,8 @@ export type AvailabilityParamsInput = {
   checkIn: Scalars['Date']['input'];
   /** The check-out date for the search. Must follow the format YYYY-MM-DD. */
   checkOut: Scalars['Date']['input'];
+  /** Distribution of rooms requested for the availability search. */
+  details: Array<RoomDetailInput>;
   /**
    * Filters applied to the search. Supported options:
    * - AVAILONLY
@@ -372,6 +376,39 @@ export type ResponseTime = {
   total: Scalars['Float']['output'];
 };
 
+/** Type for specifying room details in the availability response. */
+export type RoomDetail = {
+  __typename?: 'RoomDetail';
+  /** Age of the guest(s) in the room, if applicable. */
+  age?: Maybe<Scalars['Int']['output']>;
+  /** Whether a cot (baby crib) was requested. */
+  cot?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether an extra bed was requested. */
+  extrabed?: Maybe<Scalars['Boolean']['output']>;
+  /** The occupancy of the room (number of guests). */
+  occupancy: Scalars['Int']['output'];
+  /** Whether the room was required. */
+  required: Scalars['Int']['output'];
+  /** Type of the room (e.g., 'single', 'double', 'suite'). */
+  type?: Maybe<Scalars['String']['output']>;
+};
+
+/** Input type for specifying room details in the availability request. */
+export type RoomDetailInput = {
+  /** Age of the guest(s) in the room, if applicable. */
+  age?: InputMaybe<Scalars['Int']['input']>;
+  /** Whether a cot (baby crib) is requested. */
+  cot?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Whether an extra bed is requested. */
+  extrabed?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The occupancy of the room (number of guests). */
+  occupancy: Scalars['Int']['input'];
+  /** Whether the room is required. Defaults to true. */
+  required: Scalars['Int']['input'];
+  /** Type of the room (e.g., 'single', 'double', 'suite'). */
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** Represents the facilities available in hotel rooms. */
 export type RoomFacilities = {
   __typename?: 'RoomFacilities';
@@ -545,6 +582,8 @@ export type ResolversTypes = {
   Price: ResolverTypeWrapper<Price>;
   Query: ResolverTypeWrapper<{}>;
   ResponseTime: ResolverTypeWrapper<ResponseTime>;
+  RoomDetail: ResolverTypeWrapper<RoomDetail>;
+  RoomDetailInput: RoomDetailInput;
   RoomFacilities: ResolverTypeWrapper<RoomFacilities>;
   SearchDetails: ResolverTypeWrapper<SearchDetails>;
   SearchInput: SearchInput;
@@ -580,6 +619,8 @@ export type ResolversParentTypes = {
   Price: Price;
   Query: {};
   ResponseTime: ResponseTime;
+  RoomDetail: RoomDetail;
+  RoomDetailInput: RoomDetailInput;
   RoomFacilities: RoomFacilities;
   SearchDetails: SearchDetails;
   SearchInput: SearchInput;
@@ -591,6 +632,7 @@ export type ResolversParentTypes = {
 export type AvailabilityParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['AvailabilityParams'] = ResolversParentTypes['AvailabilityParams']> = {
   checkIn?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   checkOut?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  details?: Resolver<Array<ResolversTypes['RoomDetail']>, ParentType, ContextType>;
   filters?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   nights?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   search?: Resolver<ResolversTypes['SearchDetails'], ParentType, ContextType>;
@@ -755,6 +797,16 @@ export type ResponseTimeResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type RoomDetailResolvers<ContextType = any, ParentType extends ResolversParentTypes['RoomDetail'] = ResolversParentTypes['RoomDetail']> = {
+  age?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  cot?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  extrabed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  occupancy?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  required?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type RoomFacilitiesResolvers<ContextType = any, ParentType extends ResolversParentTypes['RoomFacilities'] = ResolversParentTypes['RoomFacilities']> = {
   airConditioning?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   film?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -797,6 +849,7 @@ export type Resolvers<ContextType = any> = {
   Price?: PriceResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResponseTime?: ResponseTimeResolvers<ContextType>;
+  RoomDetail?: RoomDetailResolvers<ContextType>;
   RoomFacilities?: RoomFacilitiesResolvers<ContextType>;
   SearchDetails?: SearchDetailsResolvers<ContextType>;
   SortDetails?: SortDetailsResolvers<ContextType>;

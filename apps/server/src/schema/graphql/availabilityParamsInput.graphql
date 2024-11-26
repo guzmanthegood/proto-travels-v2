@@ -20,6 +20,11 @@ input AvailabilityParamsInput {
   search: SearchInput!
 
   """
+  Distribution of rooms requested for the availability search.
+  """
+  details: [RoomDetailInput!]!
+
+  """
   Filters applied to the search. Supported options:
   - AVAILONLY
   - AVLHEAVY
@@ -47,6 +52,41 @@ input AvailabilityParamsInput {
   Sorting options for the results. Defaults to price ascending.
   """
   sort: SortInput = { field: PRICE, order: ASC }
+}
+
+"""
+Input type for specifying room details in the availability request.
+"""
+input RoomDetailInput {
+  """
+  Type of the room (e.g., 'single', 'double', 'suite').
+  """
+  type: String
+
+  """
+  How many rooms
+  """
+  required: Int!
+
+  """
+  Whether an extra bed is requested.
+  """
+  extrabed: Boolean
+
+  """
+  Age of the guest(s) in the room, if applicable.
+  """
+  age: Int
+
+  """
+  Whether a cot (baby crib) is requested.
+  """
+  cot: Boolean
+
+  """
+  The occupancy of the room (number of guests).
+  """
+  occupancy: Int!
 }
 
 """

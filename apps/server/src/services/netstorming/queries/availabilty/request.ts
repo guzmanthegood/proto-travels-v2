@@ -33,6 +33,36 @@ export const generateAvailabilityRequest = (
     ? params.filters.map((filter) => `<filter>${filter}</filter>`).join("")
     : "";
 
+  console.log("details >>>>>>>>> ", params.details);
+
+  // Generate room details XML
+  const roomDetailsXml = params.details
+    ? params.details
+        .map((detail) => {
+          // Build attributes dynamically
+          const attributes = [
+            detail.type ? `type="${detail.type}"` : "",
+            detail.required !== undefined
+              ? `required="${detail.required}"`
+              : "", // Use the integer directly
+            detail.extrabed !== undefined
+              ? `extrabed="${detail.extrabed}"`
+              : "", // Boolean as true/false
+            detail.age !== undefined ? `age="${detail.age}"` : "",
+            detail.cot !== undefined ? `cot="${detail.cot}"` : "", // Boolean as true/false
+            detail.occupancy !== undefined
+              ? `occupancy="${detail.occupancy}"`
+              : "",
+          ]
+            .filter((attr) => attr !== "") // Remove empty attributes
+            .join(" "); // Join attributes into a single string
+
+          // Return the <room> element
+          return `<room ${attributes} />`;
+        })
+        .join("") // Combine all room elements into a single string
+    : "";
+
   // Generate the full query content
   return `
     <checkin date="${params.checkIn}" />
@@ -42,7 +72,7 @@ export const generateAvailabilityRequest = (
       ${filtersXml}
     </filters>
     <details>
-      <room required="1" cot="false" occupancy="2" />
+      ${roomDetailsXml}
     </details>
   `.trim();
 };
