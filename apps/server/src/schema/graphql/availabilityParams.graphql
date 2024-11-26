@@ -15,6 +15,11 @@ type AvailabilityParams {
   checkOut: Date!
 
   """
+  The number of nights between check-in and check-out.
+  """
+  nights: Int!
+
+  """
   Search information for the search, such as city or coordinates.
   """
   search: SearchDetails!

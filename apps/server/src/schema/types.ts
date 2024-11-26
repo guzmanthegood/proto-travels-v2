@@ -27,6 +27,8 @@ export type AvailabilityParams = {
   checkOut: Scalars['Date']['output'];
   /** Filters applied to the search. */
   filters?: Maybe<Array<Scalars['String']['output']>>;
+  /** The number of nights between check-in and check-out. */
+  nights: Scalars['Int']['output'];
   /** Search information for the search, such as city or coordinates. */
   search: SearchDetails;
 };
@@ -400,6 +402,7 @@ export type AvailabilityParamsResolvers<ContextType = any, ParentType extends Re
   checkIn?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   checkOut?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   filters?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  nights?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   search?: Resolver<ResolversTypes['SearchDetails'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

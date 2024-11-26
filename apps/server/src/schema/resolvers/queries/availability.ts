@@ -2,7 +2,11 @@
 
 import { availability } from "../../../services/netstorming/queries/queries";
 import { generateUniqueId } from "../../../utils/helpers";
-import { AvailabilityParamsInput, AvailabilityResponse } from "../../types";
+import {
+  AvailabilityParams,
+  AvailabilityParamsInput,
+  AvailabilityResponse,
+} from "../../types";
 import { createHotelConnection } from "../hotel/hotelConnection";
 
 export const availabilityResolver = async (
@@ -31,11 +35,27 @@ export const availabilityResolver = async (
   // Availability response
   return {
     id: generateUniqueId(),
-    params: args.params,
+    params: convertToAvailabilityParams(args.params),
     responseTime: {
       total: parseFloat(totalResponseTime),
       provider: parseFloat(prvResponseTime),
     },
     hotelsConnection: hotelsConnection,
+  };
+};
+
+export const convertToAvailabilityParams = (
+  input: AvailabilityParamsInput
+): AvailabilityParams => {
+  const checkInDate = new Date(input.checkIn);
+  const checkOutDate = new Date(input.checkOut);
+
+  // Calculate the number of nights
+  const diffInMs = checkOutDate.getTime() - checkInDate.getTime();
+  const nights = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
+  return {
+    ...input,
+    nights,
   };
 };
