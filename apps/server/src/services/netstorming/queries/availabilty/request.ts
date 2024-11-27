@@ -33,8 +33,6 @@ export const generateAvailabilityRequest = (
     ? params.filters.map((filter) => `<filter>${filter}</filter>`).join("")
     : "";
 
-  console.log("details >>>>>>>>> ", params.details);
-
   // Generate room details XML
   const roomDetailsXml = params.details
     ? params.details
